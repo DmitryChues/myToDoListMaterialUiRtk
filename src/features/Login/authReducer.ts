@@ -31,7 +31,7 @@ export const authReducer = (
   }
 }
 
-export const setIsLoggedInAC = (isLoggedIn: boolean) => ({
+export const setIsLoggedInAC = ({ isLoggedIn }: { isLoggedIn: boolean }) => ({
   type: 'LOGIN/SET-IS-LOGGED-IN' as const,
   payload: { isLoggedIn },
 })
@@ -44,7 +44,7 @@ export const loginTC =
       .login(data)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(setIsLoggedInAC(true))
+          dispatch(setIsLoggedInAC({ isLoggedIn: true }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -60,7 +60,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     .logout()
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-        dispatch(setIsLoggedInAC(false))
+        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
       } else {
         handleServerAppError(dispatch, res.data)
       }
@@ -77,7 +77,7 @@ export const meTC = (): AppThunk => (dispatch) => {
     .me()
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-        dispatch(setIsLoggedInAC(true))
+        dispatch(setIsLoggedInAC({ isLoggedIn: true }))
       } else {
         handleServerAppError(dispatch, res.data)
       }

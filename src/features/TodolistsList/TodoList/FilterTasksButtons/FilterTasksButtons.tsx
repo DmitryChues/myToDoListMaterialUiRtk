@@ -1,46 +1,49 @@
-import ButtonGroup from "@mui/material/ButtonGroup";
-import { FC, memo, useCallback } from "react";
-import { FilterValuesType } from "../../../../app/App";
-import { useAppDispatch } from "../../../../app/store";
-import { ButtonMui } from "../../../../components/ButtonMui/ButtonMui";
-import { changeTodoListFilterAC } from "../../todolistsReducer";
+import ButtonGroup from '@mui/material/ButtonGroup'
+import { FC, memo, useCallback } from 'react'
+import { FilterValuesType } from '../../../../app/App'
+import { useAppDispatch } from '../../../../app/store'
+import { ButtonMui } from '../../../../components/ButtonMui/ButtonMui'
+import { changeTodoListFilterAC } from '../../todolistsReducer'
 
 type FilterTasksButtonsPropsType = {
-  filter: FilterValuesType;
-  todolistId: string;
-};
+  filter: FilterValuesType
+  todolistId: string
+}
 
 export const FilterTasksButtons: FC<FilterTasksButtonsPropsType> = memo(
   ({ filter, todolistId }) => {
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
     const tasksFilterHandler = useCallback(
       (filter: FilterValuesType) => {
-        dispatch(changeTodoListFilterAC(todolistId, filter));
+        dispatch(changeTodoListFilterAC(todolistId, filter))
       },
       [todolistId, dispatch]
-    );
+    )
     return (
-      <ButtonGroup size="medium" aria-label="Small button group">
+      <ButtonGroup
+        size='medium'
+        aria-label='Small button group'
+      >
         <ButtonMui
-          variant={filter === "all" ? "contained" : "outlined"}
-          onClick={() => tasksFilterHandler("all")}
+          variant={filter === 'all' ? 'contained' : 'outlined'}
+          onClick={() => tasksFilterHandler('all')}
         >
           All
         </ButtonMui>
         <ButtonMui
-          variant={filter === "active" ? "contained" : "outlined"}
-          onClick={() => tasksFilterHandler("active")}
+          variant={filter === 'active' ? 'contained' : 'outlined'}
+          onClick={() => tasksFilterHandler('active')}
         >
           Active
         </ButtonMui>
         <ButtonMui
-          variant={filter === "completed" ? "contained" : "outlined"}
-          color={"success"}
-          onClick={() => tasksFilterHandler("completed")}
+          variant={filter === 'completed' ? 'contained' : 'outlined'}
+          color={'success'}
+          onClick={() => tasksFilterHandler('completed')}
         >
           Completed
         </ButtonMui>
       </ButtonGroup>
-    );
+    )
   }
-);
+)

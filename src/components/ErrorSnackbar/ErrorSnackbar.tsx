@@ -1,8 +1,8 @@
-import * as React from 'react'
-import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
-import { useAppDispatch, useAppSelector } from '../../app/store'
-import { setError } from '../../app/appReducer'
+import Snackbar from '@mui/material/Snackbar'
+import { setError } from 'app/appReducer'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import * as React from 'react'
 
 export default function CustomizedSnackbars() {
   const error = useAppSelector((state) => state.app.error)

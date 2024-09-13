@@ -1,16 +1,16 @@
-import { FilterValuesType } from '../../app/App'
-import { todolistAPI, TodolistType } from '../../api/todolistAPI'
+import { todolistAPI, TodolistType } from 'api/todolistAPI'
+import { FilterValuesType } from 'app/App'
 import {
   RequestStatus,
   SetError,
   setLoading,
   SetLoading,
 } from '../../app/appReducer'
+import { AppThunk } from '../../app/store'
 import {
   handleServerAppError,
   handleServerNetworkError,
 } from '../../utils/errorUtils'
-import { AppThunk } from '../../app/store'
 
 const initialState: TodolistDomainType[] = []
 

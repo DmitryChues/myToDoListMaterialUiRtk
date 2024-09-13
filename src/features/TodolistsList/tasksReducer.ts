@@ -1,28 +1,23 @@
 import {
-  AddTodoListACType,
-  DeleteTodoListACType,
-  SetTodosACType,
-} from './todolistsReducer'
-import {
   TaskPriorities,
   TaskStatuses,
   TaskType,
   todolistAPI,
   TodolistType,
   UpdateTaskModelType,
-} from '../../api/todolistAPI'
-import { AppRootStateType, AppThunk } from '../../app/store'
-import {
-  RequestStatus,
-  SetError,
-  SetLoading,
-  setLoading,
-} from '../../app/appReducer'
+} from 'api/todolistAPI'
+import { RequestStatus, SetError, SetLoading, setLoading } from 'app/appReducer'
+import { AppRootStateType, AppThunk } from 'app/store'
+import { AxiosError } from 'axios'
 import {
   handleServerAppError,
   handleServerNetworkError,
-} from '../../utils/errorUtils'
-import { AxiosError } from 'axios'
+} from 'utils/errorUtils'
+import {
+  AddTodoListACType,
+  DeleteTodoListACType,
+  SetTodosACType,
+} from './todolistsReducer'
 
 const initialState: TasksStateType = {}
 

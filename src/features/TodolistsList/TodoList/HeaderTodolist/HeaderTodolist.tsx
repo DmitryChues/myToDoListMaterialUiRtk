@@ -1,7 +1,7 @@
-import React, { FC, memo, useCallback } from 'react'
-import { EditableSpan } from '../../../../components/EditableSpan/EditableSpan'
+import { RequestStatus } from 'app/appReducer'
+import { EditableSpan } from 'components/EditableSpan/EditableSpan'
+import { FC, memo, useCallback } from 'react'
 import s from './Header.module.css'
-import { RequestStatus } from '../../../../app/appReducer'
 
 type HeaderPropsType = {
   title: string

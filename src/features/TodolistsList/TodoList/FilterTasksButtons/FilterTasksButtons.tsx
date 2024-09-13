@@ -1,8 +1,8 @@
 import ButtonGroup from '@mui/material/ButtonGroup'
+import { FilterValuesType } from 'app/App'
+import { useAppDispatch } from 'app/store'
+import { ButtonMui } from 'components/ButtonMui/ButtonMui'
 import { FC, memo, useCallback } from 'react'
-import { FilterValuesType } from '../../../../app/App'
-import { useAppDispatch } from '../../../../app/store'
-import { ButtonMui } from '../../../../components/ButtonMui/ButtonMui'
 import { changeTodoListFilterAC } from '../../todolistsReducer'
 
 type FilterTasksButtonsPropsType = {

@@ -1,11 +1,11 @@
-import { setIsInitialized, setLoading } from '../../app/appReducer'
-import { authAPI } from '../../api/todolistAPI'
+import { authAPI } from 'api/todolistAPI'
+import { setIsInitialized, setLoading } from 'app/appReducer'
+import { AppThunk } from 'app/store'
 import {
   handleServerAppError,
   handleServerNetworkError,
-} from '../../utils/errorUtils'
+} from 'utils/errorUtils'
 import { LoginData } from './Login'
-import { AppThunk } from '../../app/store'
 
 const initialState = {
   isLoggedIn: false,

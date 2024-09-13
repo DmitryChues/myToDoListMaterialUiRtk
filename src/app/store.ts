@@ -1,7 +1,7 @@
+import { AuthActionsType, authReducer } from 'features/Login/authReducer'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { applyMiddleware, combineReducers, legacy_createStore } from 'redux'
 import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { AuthActionsType, authReducer } from '../features/Login/authReducer'
 import {
   TaskActionsType,
   tasksReducer,

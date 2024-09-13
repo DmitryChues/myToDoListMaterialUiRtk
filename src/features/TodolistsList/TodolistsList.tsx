@@ -1,8 +1,8 @@
 import Grid from '@mui/material/Grid'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { AddItemForm } from 'components/AddItemForm/AddItemForm'
 import { useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../app/store'
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
 import { TodoList } from './TodoList/TodoList'
 import { addTodoListTC, getTodosTC } from './todolistsReducer'
 

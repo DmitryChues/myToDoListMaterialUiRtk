@@ -1,6 +1,6 @@
+import { ResponseType } from 'api/todolistAPI'
+import { setError, SetError, setLoading, SetLoading } from 'app/appReducer'
 import { Dispatch } from 'redux'
-import { setLoading, setError, SetLoading, SetError } from '../app/appReducer'
-import { ResponseType } from '../api/todolistAPI'
 
 type ErrorUtilsDispatchType = Dispatch<SetLoading | SetError>
 

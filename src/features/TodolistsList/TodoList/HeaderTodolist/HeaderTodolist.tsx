@@ -36,7 +36,7 @@ export const HeaderTodolist: FC<HeaderPropsType> = memo(
       <div
         className={
           isHide
-            ? `${s.headerTodolistWrapper} ${s.is_hide}`
+            ? `${s.headerTodolistWrapper} ${s.isHide}`
             : s.headerTodolistWrapper
         }
       >

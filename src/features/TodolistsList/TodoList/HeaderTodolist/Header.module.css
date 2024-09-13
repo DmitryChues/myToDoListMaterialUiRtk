@@ -5,7 +5,7 @@
   margin: 0px 0px 20px 0px;
   transition: all 0.3s ease;
 }
-.headerTodolistWrapper.is_hide {
+.isHide {
   margin: 0px 0px 0px 0px;
 }
 .todolistTitle {
@@ -40,10 +40,10 @@
 .switch::before {
   transform: translateX(-65%) rotate(-45deg);
 }
-.hide.switch::after {
+.hide::after {
   transform: rotate(-45deg);
 }
-.hide.switch::before {
+.hide::before {
   transform: translateX(-65%) rotate(45deg);
 }
 

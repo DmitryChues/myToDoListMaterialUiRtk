@@ -1,0 +1,10 @@
+.tasksWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.taskList {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}

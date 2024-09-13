@@ -1,0 +1,92 @@
+.headerTodolistWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0px 0px 20px 0px;
+	transition: all 0.3s ease; 
+}
+.headerTodolistWrapper.is_hide {
+	margin: 0px 0px 0px 0px;
+}
+.todolistTitle {
+	font-size: 24px;
+}
+.switch {
+	border: none;
+	background: transparent;
+	position: relative;
+	width: 40px;
+	height: 30px;
+	cursor: pointer;
+}
+.switch::after,.switch::before {
+	transition: all 0.3s ease;
+	content: '';
+	width: 12px;
+	height: 2px;
+	background: #001d12;
+	position: absolute;
+	left: 45%;
+}
+.switch:hover.switch::after,
+.switch:hover.switch::before {
+	background: #8c9eff;
+	width: 15px;
+}
+.switch::after {
+	transform: rotate(45deg);
+}
+.switch::before {
+	transform: translateX(-65%) rotate(-45deg)
+}
+.hide.switch::after {
+	transform: rotate(-45deg);
+}
+.hide.switch::before {
+	transform: translateX(-65%) rotate(45deg)
+}
+
+.deleteTodolist {
+	border: none;
+	background: transparent;
+	position: relative;
+	cursor: pointer;
+	width: 40px;
+	height: 30px;
+}
+.deleteTodolist::after,
+.deleteTodolist::before {
+	transition: all 0.3s ease;
+	content: '';
+	width: 20px;
+	height: 2px;
+	background: #001d12;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+.deleteTodolist:hover::after,
+.deleteTodolist:hover::before {
+	background: rgb(207, 0, 0);
+	width: 25px;
+}
+.deleteTodolist::after {
+	transform: translateX(-50%) rotate(45deg) ;
+}
+.deleteTodolist::before {
+	transform: translateX(-50%) rotate(-45deg) ;
+}
+button:disabled{
+	opacity: 0.5;
+	cursor: default;
+}
+button:disabled:hover::after,
+button:disabled:hover::before {
+	width: 20px;
+	background-color: #001d12;
+}
+.switch:disabled:hover::after,
+.switch:disabled:hover::before {
+	width: 12px;
+	background-color: #001d12;
+}

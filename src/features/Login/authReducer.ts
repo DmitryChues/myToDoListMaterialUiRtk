@@ -1,4 +1,4 @@
-import { authAPI } from 'api/todolistAPI'
+import { authAPI, STATUS_CODE } from 'api/todolistAPI'
 import { setIsInitialized, setLoading } from 'app/appReducer'
 import { AppThunk } from 'app/store'
 import {
@@ -12,11 +12,6 @@ const initialState = {
 }
 
 type InitialState = typeof initialState
-enum STATUS_CODE {
-  SUCCESS = 0,
-  ERROR = 1,
-  RECAPTCHA_ERROR = 10,
-}
 
 export const authReducer = (
   state = initialState,

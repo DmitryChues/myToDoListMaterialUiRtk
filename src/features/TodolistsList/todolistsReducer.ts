@@ -1,4 +1,4 @@
-import { todolistAPI, TodolistType } from 'api/todolistAPI'
+import { STATUS_CODE, todolistAPI, TodolistType } from 'api/todolistAPI'
 import { FilterValuesType } from 'app/App'
 import {
   RequestStatus,
@@ -13,12 +13,6 @@ import {
 } from '../../utils/errorUtils'
 
 const initialState: TodolistDomainType[] = []
-
-enum STATUS_CODE {
-  SUCCESS = 0,
-  ERROR = 1,
-  RECAPTCHA_ERROR = 10,
-}
 
 export const todolistReducer = (
   state = initialState,

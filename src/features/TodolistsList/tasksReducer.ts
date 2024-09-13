@@ -1,4 +1,5 @@
 import {
+  STATUS_CODE,
   TaskPriorities,
   TaskStatuses,
   TaskType,
@@ -20,12 +21,6 @@ import {
 } from './todolistsReducer'
 
 const initialState: TasksStateType = {}
-
-enum STATUS_CODE {
-  SUCCESS = 0,
-  ERROR = 1,
-  RECAPTCHA_ERROR = 10,
-}
 
 export const tasksReducer = (
   state = initialState,

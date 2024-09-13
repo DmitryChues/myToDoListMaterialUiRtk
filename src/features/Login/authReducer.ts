@@ -1,3 +1,5 @@
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { authAPI, STATUS_CODE } from 'api/todolistAPI'
 import { setIsInitialized, setLoading } from 'app/appReducer'
 import { AppThunk } from 'app/store'
@@ -7,29 +9,25 @@ import {
 } from 'utils/errorUtils'
 import { LoginData } from './Login'
 
-const initialState = {
+type InitialState = {
+  isLoggedIn: boolean
+}
+
+const initialState: InitialState = {
   isLoggedIn: false,
 }
 
-type InitialState = typeof initialState
-
-export const authReducer = (
-  state = initialState,
-  action: AuthActionsType
-): InitialState => {
-  const { type, payload } = action
-  switch (type) {
-    case 'LOGIN/SET-IS-LOGGED-IN':
-      return { ...state, isLoggedIn: payload.isLoggedIn }
-    default:
-      return state
-  }
-}
-
-export const setIsLoggedInAC = ({ isLoggedIn }: { isLoggedIn: boolean }) => ({
-  type: 'LOGIN/SET-IS-LOGGED-IN' as const,
-  payload: { isLoggedIn },
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setIsLoggedInAC(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+      return { ...state, isLoggedIn: action.payload.isLoggedIn }
+    },
+  },
 })
+
+export const { setIsLoggedInAC } = authSlice.actions
 
 export const loginTC =
   (data: LoginData): AppThunk =>
@@ -85,5 +83,3 @@ export const meTC = (): AppThunk => (dispatch) => {
       dispatch(setIsInitialized({ isInitialized: true }))
     })
 }
-
-export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>

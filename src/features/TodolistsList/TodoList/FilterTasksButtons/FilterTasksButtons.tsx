@@ -15,7 +15,7 @@ export const FilterTasksButtons: FC<FilterTasksButtonsPropsType> = memo(
     const dispatch = useAppDispatch()
     const tasksFilterHandler = useCallback(
       (filter: FilterValuesType) => {
-        dispatch(changeTodoListFilterAC(todolistId, filter))
+        dispatch(changeTodoListFilterAC({ todolistId, filter }))
       },
       [todolistId, dispatch]
     )

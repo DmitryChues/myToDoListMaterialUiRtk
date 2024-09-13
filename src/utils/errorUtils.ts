@@ -8,8 +8,8 @@ export const handleServerNetworkError = (
   dispatch: ErrorUtilsDispatchType,
   e: { message: string }
 ) => {
-  dispatch(setLoading('failed'))
-  dispatch(setError(e.message))
+  dispatch(setLoading({ status: 'failed' }))
+  dispatch(setError({ error: e.message }))
 }
 
 export const handleServerAppError = <T>(
@@ -17,9 +17,9 @@ export const handleServerAppError = <T>(
   data: ResponseType<T>
 ) => {
   if (data.messages.length) {
-    dispatch(setError(data.messages[0]))
+    dispatch(setError({ error: data.messages[0] }))
   } else {
-    dispatch(setError('something error'))
+    dispatch(setError({ error: 'something error' }))
   }
-  dispatch(setLoading('failed'))
+  dispatch(setLoading({ status: 'failed' }))
 }

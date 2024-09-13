@@ -106,12 +106,12 @@ export const setTodoListAC = ({
 })
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading('loading'))
+  dispatch(setLoading({ status: 'loading' }))
   todolistAPI
     .getTodos()
     .then((res) => {
       dispatch(setTodoListAC({ todolists: res.data }))
-      dispatch(setLoading('succeeded'))
+      dispatch(setLoading({ status: 'succeeded' }))
     })
     .catch((err) => {
       handleServerNetworkError(dispatch, err)
@@ -121,13 +121,13 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
 export const addTodoListTC =
   (title: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     todolistAPI
       .addTodos(title)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(addTodoListAC({ todolist: res.data.data.item }))
-          dispatch(setLoading('succeeded'))
+          dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -139,13 +139,13 @@ export const addTodoListTC =
 export const changeTodoListTC =
   (title: string, todolistId: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     todolistAPI
       .updateTodos(title, todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(changeTodoListTitleAC({ todolistId, title }))
-          dispatch(setLoading('succeeded'))
+          dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -157,14 +157,14 @@ export const changeTodoListTC =
 export const deleteTodoListTC =
   (todolistId: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     dispatch(changeEntityStatus({ todolistId, entityStatus: 'loading' }))
     todolistAPI
       .deleteTodos(todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(deleteTodoListAC({ todolistId }))
-          dispatch(setLoading('succeeded'))
+          dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }

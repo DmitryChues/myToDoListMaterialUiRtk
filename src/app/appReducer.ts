@@ -25,15 +25,19 @@ export const appReducer = (
   }
 }
 
-export const setLoading = (status: RequestStatus) => ({
+export const setLoading = ({ status }: { status: RequestStatus }) => ({
   type: 'APP/SET-STATUS' as const,
   payload: { status },
 })
-export const setError = (error: string | null) => ({
+export const setError = ({ error }: { error: string | null }) => ({
   type: 'APP/SET-ERROR' as const,
   payload: { error },
 })
-export const setIsInitialized = (isInitialized: boolean) => ({
+export const setIsInitialized = ({
+  isInitialized,
+}: {
+  isInitialized: boolean
+}) => ({
   type: 'APP/SET-IS-INITIALIZED' as const,
   payload: { isInitialized },
 })

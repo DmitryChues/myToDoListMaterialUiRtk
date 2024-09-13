@@ -39,7 +39,7 @@ export const setIsLoggedInAC = (isLoggedIn: boolean) => ({
 export const loginTC =
   (data: LoginData): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     authAPI
       .login(data)
       .then((res) => {
@@ -48,14 +48,14 @@ export const loginTC =
         } else {
           handleServerAppError(dispatch, res.data)
         }
-        dispatch(setLoading('succeeded'))
+        dispatch(setLoading({ status: 'succeeded' }))
       })
       .catch((e) => {
         handleServerNetworkError(dispatch, e)
       })
   }
 export const logoutTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading('loading'))
+  dispatch(setLoading({ status: 'loading' }))
   authAPI
     .logout()
     .then((res) => {
@@ -64,7 +64,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setLoading('succeeded'))
+      dispatch(setLoading({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)
@@ -72,7 +72,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 }
 
 export const meTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading('loading'))
+  dispatch(setLoading({ status: 'loading' }))
   authAPI
     .me()
     .then((res) => {
@@ -81,13 +81,13 @@ export const meTC = (): AppThunk => (dispatch) => {
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setLoading('succeeded'))
+      dispatch(setLoading({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)
     })
     .finally(() => {
-      dispatch(setIsInitialized(true))
+      dispatch(setIsInitialized({ isInitialized: true }))
     })
 }
 

@@ -142,12 +142,12 @@ export const changeEntityTaskStatus = ({
 export const getTasksTC =
   (todolistId: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     todolistAPI
       .getTasks(todolistId)
       .then((res) => {
         dispatch(setTasksAC({ todolistId, tasks: res.data.items }))
-        dispatch(setLoading('succeeded'))
+        dispatch(setLoading({ status: 'succeeded' }))
       })
       .catch((err) => {
         handleServerNetworkError(dispatch, err)
@@ -157,13 +157,13 @@ export const getTasksTC =
 export const addTaskTC =
   (todolistId: string, title: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     todolistAPI
       .addTask(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(addTaskAC({ task: res.data.data.item }))
-          dispatch(setLoading('succeeded'))
+          dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -182,13 +182,13 @@ export const deleteTasksTC =
         entityTaskStatus: 'loading',
       })
     )
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     todolistAPI
       .deleteTask(todolistId, taskId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(deleteTaskAC({ todolistId, taskId }))
-          dispatch(setLoading('succeeded'))
+          dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -211,7 +211,7 @@ export const updateTaskTC =
     domainModel: UpdateTaskDomainModelType
   ): AppThunk =>
   (dispatch, getState: () => AppRootStateType) => {
-    dispatch(setLoading('loading'))
+    dispatch(setLoading({ status: 'loading' }))
     const task = getState().tasks[todolistId].find((el) => el.id === taskId)
     if (task) {
       const apiModel: UpdateTaskModelType = {
@@ -228,7 +228,7 @@ export const updateTaskTC =
         .then((res) => {
           if (res.data.resultCode === STATUS_CODE.SUCCESS) {
             dispatch(updateTaskAC({ todolistId, taskId, model: domainModel }))
-            dispatch(setLoading('succeeded'))
+            dispatch(setLoading({ status: 'succeeded' }))
           } else {
             handleServerAppError(dispatch, res.data)
           }

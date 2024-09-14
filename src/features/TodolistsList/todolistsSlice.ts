@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { STATUS_CODE, todolistAPI, TodolistType } from 'api/todolistAPI'
 import { FilterValuesType } from 'app/App'
-import { RequestStatus, setLoading } from '../../app/appReducer'
+import { RequestStatus, setLoading } from '../../app/appSlice'
 import { AppThunk } from '../../app/store'
 import {
   handleServerAppError,
@@ -148,14 +148,3 @@ export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
   entityStatus: RequestStatus
 }
-export type TodolistActionsType =
-  | DeleteTodoListACType
-  | AddTodoListACType
-  | SetTodosACType
-  | ReturnType<typeof changeTodoListTitleAC>
-  | ReturnType<typeof changeTodoListFilterAC>
-  | ReturnType<typeof changeEntityStatus>
-
-export type SetTodosACType = ReturnType<typeof setTodoListAC>
-export type DeleteTodoListACType = ReturnType<typeof deleteTodoListAC>
-export type AddTodoListACType = ReturnType<typeof addTodoListAC>

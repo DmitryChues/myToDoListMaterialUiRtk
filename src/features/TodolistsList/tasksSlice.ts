@@ -7,7 +7,7 @@ import {
   todolistAPI,
   UpdateTaskModelType,
 } from 'api/todolistAPI'
-import { RequestStatus, setLoading } from 'app/appReducer'
+import { RequestStatus, setLoading } from 'app/appSlice'
 import { AppRootStateType, AppThunk } from 'app/store'
 import { AxiosError } from 'axios'
 import {
@@ -16,12 +16,9 @@ import {
 } from 'utils/errorUtils'
 import {
   addTodoListAC,
-  AddTodoListACType,
   deleteTodoListAC,
-  DeleteTodoListACType,
   setTodoListAC,
-  SetTodosACType,
-} from './todolistsReducer'
+} from './todolistsSlice'
 
 export type TasksStateType = {
   [key: string]: TaskDomainType[]
@@ -235,15 +232,6 @@ export const updateTaskTC =
 export type TaskDomainType = TaskType & {
   entityStatus: RequestStatus
 }
-export type TaskActionsType =
-  | AddTodoListACType
-  | DeleteTodoListACType
-  | SetTodosACType
-  | ReturnType<typeof addTaskAC>
-  | ReturnType<typeof setTasksAC>
-  | ReturnType<typeof deleteTaskAC>
-  | ReturnType<typeof updateTaskAC>
-  | ReturnType<typeof changeEntityTaskStatus>
 
 type UpdateTaskDomainModelType = {
   title?: string

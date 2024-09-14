@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
-import { loginTC } from './authReducer'
+import { loginTC } from './authSlice'
 
 export type LoginData = {
   email: string

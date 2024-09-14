@@ -3,11 +3,11 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import { TaskStatuses, TaskType } from 'api/todolistAPI'
-import { RequestStatus } from 'app/appReducer'
+import { RequestStatus } from 'app/appSlice'
 import { useAppDispatch } from 'app/store'
 import { EditableSpan } from 'components/EditableSpan/EditableSpan'
 import { ChangeEvent, memo, useCallback } from 'react'
-import { deleteTasksTC, updateTaskTC } from '../../../tasksReducer'
+import { deleteTasksTC, updateTaskTC } from '../../../tasksSlice'
 import s from './Task.module.css'
 
 type TaskPropsType = {

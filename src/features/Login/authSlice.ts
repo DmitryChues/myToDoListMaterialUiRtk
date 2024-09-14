@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { authAPI, STATUS_CODE } from 'api/todolistAPI'
-import { setIsInitialized, setLoading } from 'app/appReducer'
+import { setIsInitialized, setLoading } from 'app/appSlice'
 import { AppThunk } from 'app/store'
 import {
   handleServerAppError,

@@ -3,12 +3,12 @@ import {
   configureStore,
   UnknownAction,
 } from '@reduxjs/toolkit'
-import { authSlice } from 'features/Login/authReducer'
+import { authSlice } from 'features/Login/authSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { tasksSlice } from '../features/TodolistsList/tasksReducer'
-import { todolistSlice } from '../features/TodolistsList/todolistsReducer'
-import { appSlice } from './appReducer'
+import { tasksSlice } from '../features/TodolistsList/tasksSlice'
+import { todolistSlice } from '../features/TodolistsList/todolistsSlice'
+import { appSlice } from './appSlice'
 
 const rootReducer = combineReducers({
   [tasksSlice.reducerPath]: tasksSlice.reducer,

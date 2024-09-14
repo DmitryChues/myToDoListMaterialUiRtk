@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import { RequestStatus } from 'app/appReducer'
+import { RequestStatus } from 'app/appSlice'
 import { ChangeEvent, FC, KeyboardEvent, memo, useState } from 'react'
 
 type AddItemFormType = {

@@ -4,7 +4,7 @@ import { AddItemForm } from 'components/AddItemForm/AddItemForm'
 import { useCallback, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { TodoList } from './TodoList/TodoList'
-import { addTodoListTC, getTodosTC } from './todolistsReducer'
+import { addTodoListTC, getTodosTC } from './todolistsSlice'
 
 export const TodolistsList = () => {
   const todolists = useAppSelector((state) => state.todolists)

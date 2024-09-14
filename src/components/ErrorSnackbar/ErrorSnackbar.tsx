@@ -1,6 +1,6 @@
 import Alert from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
-import { setError } from 'app/appReducer'
+import { setError } from 'app/appSlice'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import * as React from 'react'
 

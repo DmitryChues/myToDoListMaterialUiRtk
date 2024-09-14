@@ -1,4 +1,4 @@
-import { RequestStatus } from 'app/appReducer'
+import { RequestStatus } from 'app/appSlice'
 import { EditableSpan } from 'components/EditableSpan/EditableSpan'
 import { FC, memo, useCallback } from 'react'
 import s from './Header.module.css'

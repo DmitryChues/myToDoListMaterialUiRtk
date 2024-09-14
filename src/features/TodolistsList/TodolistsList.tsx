@@ -7,7 +7,7 @@ import { TodoList } from './TodoList/TodoList'
 import { addTodoListTC, getTodosTC } from './todolistsReducer'
 
 export const TodolistsList = () => {
-  const todolists = useAppSelector((state) => state.todolist)
+  const todolists = useAppSelector((state) => state.todolists)
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
   const addTodoList = useCallback(
@@ -37,7 +37,7 @@ export const TodolistsList = () => {
           <AddItemForm addItem={addTodoList} />
         </div>
       </Grid>
-      {todolists.map((el) => (
+      {todolists?.map((el) => (
         <Grid
           key={el.id}
           item

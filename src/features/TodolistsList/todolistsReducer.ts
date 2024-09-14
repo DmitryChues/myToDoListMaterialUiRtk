@@ -1,11 +1,6 @@
 import { STATUS_CODE, todolistAPI, TodolistType } from 'api/todolistAPI'
 import { FilterValuesType } from 'app/App'
-import {
-  RequestStatus,
-  SetError,
-  setLoading,
-  SetLoading,
-} from '../../app/appReducer'
+import { RequestStatus, setLoading } from '../../app/appReducer'
 import { AppThunk } from '../../app/store'
 import {
   handleServerAppError,
@@ -176,8 +171,6 @@ export type TodolistActionsType =
   | DeleteTodoListACType
   | AddTodoListACType
   | SetTodosACType
-  | SetLoading
-  | SetError
   | ReturnType<typeof changeTodoListTitleAC>
   | ReturnType<typeof changeTodoListFilterAC>
   | ReturnType<typeof changeEntityStatus>

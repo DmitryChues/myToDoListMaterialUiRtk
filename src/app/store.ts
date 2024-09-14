@@ -8,12 +8,12 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { tasksReducer } from '../features/TodolistsList/tasksReducer'
 import { todolistReducer } from '../features/TodolistsList/todolistsReducer'
-import { appReducer } from './appReducer'
+import { appSlice } from './appReducer'
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolist: todolistReducer,
-  app: appReducer,
+  [appSlice.reducerPath]: appSlice.reducer,
   [authSlice.reducerPath]: authSlice.reducer,
 })
 

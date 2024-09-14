@@ -1,8 +1,8 @@
 import { ResponseType } from 'api/todolistAPI'
-import { setError, SetError, setLoading, SetLoading } from 'app/appReducer'
+import { setError, setLoading } from 'app/appReducer'
 import { Dispatch } from 'redux'
 
-type ErrorUtilsDispatchType = Dispatch<SetLoading | SetError>
+type ErrorUtilsDispatchType = Dispatch
 
 export const handleServerNetworkError = (
   dispatch: ErrorUtilsDispatchType,

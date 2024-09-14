@@ -4,10 +4,9 @@ import {
   TaskStatuses,
   TaskType,
   todolistAPI,
-  TodolistType,
   UpdateTaskModelType,
 } from 'api/todolistAPI'
-import { RequestStatus, SetError, SetLoading, setLoading } from 'app/appReducer'
+import { RequestStatus, setLoading } from 'app/appReducer'
 import { AppRootStateType, AppThunk } from 'app/store'
 import { AxiosError } from 'axios'
 import {
@@ -28,14 +27,14 @@ export const tasksReducer = (
 ): TasksStateType => {
   const { type, payload } = action
   switch (type) {
-    case 'SET-TODOLISTS':
-      return payload.todolists.reduce(
-        (acc: TasksStateType, tl: TodolistType) => {
-          acc[tl.id] = []
-          return acc
-        },
-        state
-      )
+    case 'SET-TODOLISTS': {
+      const copyState = { ...state }
+      action.payload.todolists.forEach((tl) => {
+        copyState[tl.id] = []
+      })
+      return copyState
+    }
+
     case 'SET-TASKS':
       return {
         ...state,
@@ -243,8 +242,6 @@ export type TaskActionsType =
   | AddTodoListACType
   | DeleteTodoListACType
   | SetTodosACType
-  | SetLoading
-  | SetError
   | ReturnType<typeof addTaskAC>
   | ReturnType<typeof setTasksAC>
   | ReturnType<typeof deleteTaskAC>

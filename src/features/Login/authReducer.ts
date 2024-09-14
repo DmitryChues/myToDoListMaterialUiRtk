@@ -1,5 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { authAPI, STATUS_CODE } from 'api/todolistAPI'
 import { setIsInitialized, setLoading } from 'app/appReducer'
 import { AppThunk } from 'app/store'

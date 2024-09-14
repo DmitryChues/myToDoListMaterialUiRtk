@@ -1,48 +1,31 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-const initialState = {
+const initialState: InitialState = {
   isInitialized: false,
-  status: 'idle' as RequestStatus,
-  error: null as null | string,
+  status: 'idle',
+  error: null,
 }
-
-type InitialState = typeof initialState
-
-export const appReducer = (
-  state: InitialState = initialState,
-  action: AppActionsType
-): InitialState => {
-  const { type, payload } = action
-  switch (type) {
-    case 'APP/SET-STATUS':
-      return { ...state, status: payload.status }
-    case 'APP/SET-ERROR':
-      return { ...state, error: payload.error }
-    case 'APP/SET-IS-INITIALIZED':
-      return { ...state, isInitialized: payload.isInitialized }
-    default:
-      return state
-  }
-}
-
-export const setLoading = ({ status }: { status: RequestStatus }) => ({
-  type: 'APP/SET-STATUS' as const,
-  payload: { status },
-})
-export const setError = ({ error }: { error: string | null }) => ({
-  type: 'APP/SET-ERROR' as const,
-  payload: { error },
-})
-export const setIsInitialized = ({
-  isInitialized,
-}: {
+type InitialState = {
   isInitialized: boolean
-}) => ({
-  type: 'APP/SET-IS-INITIALIZED' as const,
-  payload: { isInitialized },
+  status: RequestStatus
+  error: null | string
+}
+
+export const appSlice = createSlice({
+  name: 'app',
+  initialState,
+  reducers: {
+    setLoading(state, action: PayloadAction<{ status: RequestStatus }>) {
+      return { ...state, status: action.payload.status }
+    },
+    setError(state, action: PayloadAction<{ error: null | string }>) {
+      return { ...state, error: action.payload.error }
+    },
+    setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
+      return { ...state, isInitialized: action.payload.isInitialized }
+    },
+  },
 })
 
-export type SetLoading = ReturnType<typeof setLoading>
-export type SetError = ReturnType<typeof setError>
-export type SetInitialized = ReturnType<typeof setIsInitialized>
-export type AppActionsType = SetLoading | SetError | SetInitialized
+export const { setError, setIsInitialized, setLoading } = appSlice.actions

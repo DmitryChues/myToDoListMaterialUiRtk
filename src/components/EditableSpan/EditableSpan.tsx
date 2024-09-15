@@ -1,14 +1,14 @@
 import TextField from '@mui/material/TextField'
-import React, { ChangeEvent, FC, memo, useState } from 'react'
+import { ChangeEvent, FC, memo, useState } from 'react'
 
-type EditableSpanPropsType = {
+type EditableSpanProps = {
   title: string
   className?: string
   onChange: (title: string) => void
   disabled?: boolean
 }
 
-export const EditableSpan: FC<EditableSpanPropsType> = memo(
+export const EditableSpan: FC<EditableSpanProps> = memo(
   ({ title, className, onChange, disabled }) => {
     const [editMode, setEditMode] = useState(false)
     const [newTitle, setNewTitle] = useState('')

@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
-import { TaskStatuses, TaskType } from 'api/todolistAPI'
+import { TaskEntity, TaskStatuses } from 'api/todolistAPI'
 import { RequestStatus } from 'app/appSlice'
 import { useAppDispatch } from 'app/store'
 import { EditableSpan } from 'components/EditableSpan/EditableSpan'
@@ -10,13 +10,13 @@ import { ChangeEvent, memo, useCallback } from 'react'
 import { deleteTasksTC, updateTaskTC } from '../../../tasksSlice'
 import s from './Task.module.css'
 
-type TaskPropsType = {
-  task: TaskType
+type TaskProps = {
+  task: TaskEntity
   todolistId: string
   entityStatus: RequestStatus
   entityTaskStatus: RequestStatus
 }
-export const Task = memo((props: TaskPropsType) => {
+export const Task = memo((props: TaskProps) => {
   const dispatch = useAppDispatch()
   const { task, todolistId, entityStatus, entityTaskStatus } = props
   const deleteTask = () => {

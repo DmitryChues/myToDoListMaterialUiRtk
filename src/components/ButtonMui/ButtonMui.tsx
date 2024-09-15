@@ -1,8 +1,8 @@
 import Button, { ButtonProps } from '@mui/material/Button'
-import React, { memo } from 'react'
+import { memo } from 'react'
 
-type ButtonMuiType = {} & ButtonProps
+type ButtonMuiProps = {} & ButtonProps
 
-export const ButtonMui = memo(({ children, ...restProps }: ButtonMuiType) => {
+export const ButtonMui = memo(({ children, ...restProps }: ButtonMuiProps) => {
   return <Button {...restProps}>{children}</Button>
 })

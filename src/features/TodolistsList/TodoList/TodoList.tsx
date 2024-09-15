@@ -1,6 +1,6 @@
 import Collapse from '@mui/material/Collapse'
 import Paper from '@mui/material/Paper'
-import { FilterValuesType } from 'app/App'
+import { FilterValues } from 'app/App'
 import { RequestStatus } from 'app/appSlice'
 import { AddItemForm } from 'components/AddItemForm/AddItemForm'
 import { FC, useCallback, useState } from 'react'
@@ -12,14 +12,14 @@ import { HeaderTodolist } from './HeaderTodolist/HeaderTodolist'
 import { TasksList } from './TasksList/TasksList'
 import s from './TodoList.module.css'
 
-type ToDoListPropsType = {
+type ToDoListProps = {
   title: string
   todolistId: string
-  filter: FilterValuesType
+  filter: FilterValues
   entityStatus: RequestStatus
 }
 
-export const TodoList: FC<ToDoListPropsType> = ({
+export const TodoList: FC<ToDoListProps> = ({
   title,
   todolistId,
   filter,

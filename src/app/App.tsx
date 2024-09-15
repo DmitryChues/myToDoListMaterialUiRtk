@@ -15,15 +15,15 @@ import './App.css'
 import { RequestStatus } from './appSlice'
 import { useAppDispatch, useAppSelector } from './store'
 
-export type FilterValuesType = 'all' | 'active' | 'completed'
+export type FilterValues = 'all' | 'active' | 'completed'
 
-export type TaskType = {
+export type Task = {
   id: string
   title: string
   isDone: boolean
 }
-export type TasksType = {
-  [key: string]: TaskType[]
+export type Tasks = {
+  [key: string]: Task[]
 }
 
 function App() {

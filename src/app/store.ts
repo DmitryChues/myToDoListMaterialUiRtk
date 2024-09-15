@@ -19,24 +19,23 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({ reducer: rootReducer })
 
-export type AppRootStateType = ReturnType<typeof store.getState>
+export type AppRootState = ReturnType<typeof store.getState>
 
 export type AppThunkDispatch = ThunkDispatch<
-  AppRootStateType,
+  AppRootState,
   unknown,
   UnknownAction
 >
 
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppRootStateType,
+export type AppThunk<Return = void> = ThunkAction<
+  Return,
+  AppRootState,
   unknown,
   UnknownAction
 >
 
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> =
-  useSelector
+export const useAppSelector: TypedUseSelectorHook<AppRootState> = useSelector
 
 // @ts-ignore
 window.store = store

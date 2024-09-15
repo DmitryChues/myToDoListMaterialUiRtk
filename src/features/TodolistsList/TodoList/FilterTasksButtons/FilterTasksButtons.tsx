@@ -1,20 +1,20 @@
 import ButtonGroup from '@mui/material/ButtonGroup'
-import { FilterValuesType } from 'app/App'
+import { FilterValues } from 'app/App'
 import { useAppDispatch } from 'app/store'
 import { ButtonMui } from 'components/ButtonMui/ButtonMui'
 import { FC, memo, useCallback } from 'react'
 import { changeTodoListFilter } from '../../todolistsSlice'
 
-type FilterTasksButtonsPropsType = {
-  filter: FilterValuesType
+type FilterTasksButtonsProps = {
+  filter: FilterValues
   todolistId: string
 }
 
-export const FilterTasksButtons: FC<FilterTasksButtonsPropsType> = memo(
+export const FilterTasksButtons: FC<FilterTasksButtonsProps> = memo(
   ({ filter, todolistId }) => {
     const dispatch = useAppDispatch()
     const tasksFilterHandler = useCallback(
-      (filter: FilterValuesType) => {
+      (filter: FilterValues) => {
         dispatch(changeTodoListFilter({ todolistId, filter }))
       },
       [todolistId, dispatch]

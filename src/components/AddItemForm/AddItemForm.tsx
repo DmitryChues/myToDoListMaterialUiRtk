@@ -4,12 +4,12 @@ import TextField from '@mui/material/TextField'
 import { RequestStatus } from 'app/appSlice'
 import { ChangeEvent, FC, KeyboardEvent, memo, useState } from 'react'
 
-type AddItemFormType = {
+type AddItemForm = {
   addItem: (title: string) => void
   entityStatus?: RequestStatus
 }
 
-export const AddItemForm: FC<AddItemFormType> = memo(
+export const AddItemForm: FC<AddItemForm> = memo(
   ({ addItem, entityStatus }) => {
     const [error, setError] = useState<string | null>(null)
     const [taskTitle, setTaskTitle] = useState<string>('')
@@ -47,7 +47,7 @@ export const AddItemForm: FC<AddItemFormType> = memo(
             flex: '1 1 auto',
           }}
           error={!!error}
-          label={error ? error : 'Type smth...'}
+          label={error ? error : ' smth...'}
           value={taskTitle}
           size='small'
           onChange={onChangeInputHandler}

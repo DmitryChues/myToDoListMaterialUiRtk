@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
   STATUS_CODE,
+  TaskEntity,
   TaskPriorities,
   TaskStatuses,
-  TaskType,
   todolistAPI,
-  UpdateTaskModelType,
+  UpdateTaskModel,
 } from 'api/todolistAPI'
 import { RequestStatus, setLoading } from 'app/appSlice'
-import { AppRootStateType, AppThunk } from 'app/store'
+import { AppRootState, AppThunk } from 'app/store'
 import { AxiosError } from 'axios'
 import {
   handleServerAppError,
@@ -16,10 +16,10 @@ import {
 } from 'utils/errorUtils'
 import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
 
-export type TasksStateType = {
-  [key: string]: TaskDomainType[]
+export type TasksState = {
+  [key: string]: TaskDomain[]
 }
-const initialState: TasksStateType = {}
+const initialState: TasksState = {}
 
 export const tasksSlice = createSlice({
   name: 'tasks',
@@ -27,7 +27,7 @@ export const tasksSlice = createSlice({
   reducers: {
     setTasks(
       state,
-      action: PayloadAction<{ todolistId: string; tasks: TaskType[] }>
+      action: PayloadAction<{ todolistId: string; tasks: TaskEntity[] }>
     ) {
       return {
         ...state,
@@ -37,7 +37,7 @@ export const tasksSlice = createSlice({
         })),
       }
     },
-    addTask(state, action: PayloadAction<{ task: TaskType }>) {
+    addTask(state, action: PayloadAction<{ task: TaskEntity }>) {
       return {
         ...state,
         [action.payload.task.todoListId]: [
@@ -65,7 +65,7 @@ export const tasksSlice = createSlice({
       action: PayloadAction<{
         todolistId: string
         taskId: string
-        model: UpdateTaskDomainModelType
+        model: UpdateTaskDomainModel
       }>
     ) {
       return {
@@ -194,13 +194,13 @@ export const updateTaskTC =
   (
     todolistId: string,
     taskId: string,
-    domainModel: UpdateTaskDomainModelType
+    domainModel: UpdateTaskDomainModel
   ): AppThunk =>
-  (dispatch, getState: () => AppRootStateType) => {
+  (dispatch, getState: () => AppRootState) => {
     dispatch(setLoading({ status: 'loading' }))
     const task = getState().tasks[todolistId].find((el) => el.id === taskId)
     if (task) {
-      const apiModel: UpdateTaskModelType = {
+      const apiModel: UpdateTaskModel = {
         title: task.title,
         description: task.description,
         status: task.status,
@@ -225,11 +225,11 @@ export const updateTaskTC =
     }
   }
 
-export type TaskDomainType = TaskType & {
+export type TaskDomain = TaskEntity & {
   entityStatus: RequestStatus
 }
 
-type UpdateTaskDomainModelType = {
+type UpdateTaskDomainModel = {
   title?: string
   description?: string
   status?: TaskStatuses

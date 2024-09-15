@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { STATUS_CODE, todolistAPI, TodolistType } from 'api/todolistAPI'
-import { FilterValuesType } from 'app/App'
+import { STATUS_CODE, Todolist, todolistAPI } from 'api/todolistAPI'
+import { FilterValues } from 'app/App'
 import { RequestStatus, setLoading } from '../../app/appSlice'
 import { AppThunk } from '../../app/store'
 import {
@@ -8,13 +8,13 @@ import {
   handleServerNetworkError,
 } from '../../utils/errorUtils'
 
-const initialState: TodolistDomainType[] = []
+const initialState: TodolistDomain[] = []
 
 export const todolistSlice = createSlice({
   name: 'todolists',
   initialState,
   reducers: {
-    setTodoList(_state, action: PayloadAction<{ todolists: TodolistType[] }>) {
+    setTodoList(_state, action: PayloadAction<{ todolists: Todolist[] }>) {
       return action.payload.todolists.map((el) => ({
         ...el,
         filter: 'all',
@@ -24,7 +24,7 @@ export const todolistSlice = createSlice({
     deleteTodoList(state, action: PayloadAction<{ todolistId: string }>) {
       return state.filter((el) => el.id !== action.payload.todolistId)
     },
-    addTodoList(state, action: PayloadAction<{ todolist: TodolistType }>) {
+    addTodoList(state, action: PayloadAction<{ todolist: Todolist }>) {
       return [
         { ...action.payload.todolist, filter: 'all', entityStatus: 'idle' },
         ...state,
@@ -42,7 +42,7 @@ export const todolistSlice = createSlice({
     },
     changeTodoListFilter(
       state,
-      action: PayloadAction<{ todolistId: string; filter: FilterValuesType }>
+      action: PayloadAction<{ todolistId: string; filter: FilterValues }>
     ) {
       return state.map((el) =>
         el.id === action.payload.todolistId
@@ -141,7 +141,7 @@ export const deleteTodoListTC =
         handleServerNetworkError(dispatch, err)
       })
   }
-export type TodolistDomainType = TodolistType & {
-  filter: FilterValuesType
+export type TodolistDomain = Todolist & {
+  filter: FilterValues
   entityStatus: RequestStatus
 }

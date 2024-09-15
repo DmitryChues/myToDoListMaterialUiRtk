@@ -2,21 +2,21 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from '@mui/material/Button'
 import { TaskStatuses } from 'api/todolistAPI'
-import { FilterValuesType } from 'app/App'
+import { FilterValues } from 'app/App'
 import { RequestStatus } from 'app/appSlice'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { FC, memo, useEffect } from 'react'
-import { deleteTasksTC, getTasksTC, TaskDomainType } from '../../tasksSlice'
+import { deleteTasksTC, getTasksTC, TaskDomain } from '../../tasksSlice'
 import { Task } from './Task/Task'
 import s from './TaskList.module.css'
 
-type TasksListPropsType = {
+type TasksListProps = {
   todolistId: string
-  filter: FilterValuesType
+  filter: FilterValues
   entityStatus: RequestStatus
 }
 
-export const TasksList: FC<TasksListPropsType> = memo(
+export const TasksList: FC<TasksListProps> = memo(
   ({ todolistId, filter, entityStatus }) => {
     const tasks = useAppSelector((state) => state.tasks[todolistId])
     const dispatch = useAppDispatch()
@@ -28,8 +28,8 @@ export const TasksList: FC<TasksListPropsType> = memo(
 
     //todo: вынести в селектор
     const getFilteredTasks = (
-      allTasks: TaskDomainType[],
-      filterValue: FilterValuesType
+      allTasks: TaskDomain[],
+      filterValue: FilterValues
     ) => {
       switch (filterValue) {
         case 'active':

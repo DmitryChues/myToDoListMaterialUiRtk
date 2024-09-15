@@ -10,13 +10,13 @@ import { ChangeEvent, memo, useCallback } from 'react'
 import { deleteTasksTC, updateTaskTC } from '../../../tasksSlice'
 import s from './Task.module.css'
 
-type TaskProps = {
+type Props = {
   task: TaskEntity
   todolistId: string
   entityStatus: RequestStatus
   entityTaskStatus: RequestStatus
 }
-export const Task = memo((props: TaskProps) => {
+export const Task = memo((props: Props) => {
   const dispatch = useAppDispatch()
   const { task, todolistId, entityStatus, entityTaskStatus } = props
   const deleteTask = () => {

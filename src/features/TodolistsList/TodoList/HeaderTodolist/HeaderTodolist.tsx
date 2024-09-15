@@ -3,7 +3,7 @@ import { EditableSpan } from 'components/EditableSpan/EditableSpan'
 import { FC, memo, useCallback } from 'react'
 import s from './Header.module.css'
 
-type HeaderProps = {
+type Props = {
   title: string
   isHide: boolean
   entityStatus: RequestStatus
@@ -12,7 +12,7 @@ type HeaderProps = {
   changeTodoListTitle: (title: string) => void
 }
 
-export const HeaderTodolist: FC<HeaderProps> = memo((props: HeaderProps) => {
+export const HeaderTodolist: FC<Props> = memo((props: Props) => {
   const {
     deleteTodoList,
     title,

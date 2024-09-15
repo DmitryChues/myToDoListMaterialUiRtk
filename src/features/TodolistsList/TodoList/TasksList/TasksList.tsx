@@ -10,13 +10,13 @@ import { deleteTasksTC, getTasksTC, TaskDomain } from '../../tasksSlice'
 import { Task } from './Task/Task'
 import s from './TaskList.module.css'
 
-type TasksListProps = {
+type Props = {
   todolistId: string
   filter: FilterValues
   entityStatus: RequestStatus
 }
 
-export const TasksList: FC<TasksListProps> = memo(
+export const TasksList: FC<Props> = memo(
   ({ todolistId, filter, entityStatus }) => {
     const tasks = useAppSelector((state) => state.tasks[todolistId])
     const dispatch = useAppDispatch()

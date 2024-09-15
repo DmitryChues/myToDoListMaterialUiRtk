@@ -5,45 +5,43 @@ import { ButtonMui } from 'components/ButtonMui/ButtonMui'
 import { FC, memo, useCallback } from 'react'
 import { changeTodoListFilter } from '../../todolistsSlice'
 
-type FilterTasksButtonsProps = {
+type Props = {
   filter: FilterValues
   todolistId: string
 }
 
-export const FilterTasksButtons: FC<FilterTasksButtonsProps> = memo(
-  ({ filter, todolistId }) => {
-    const dispatch = useAppDispatch()
-    const tasksFilterHandler = useCallback(
-      (filter: FilterValues) => {
-        dispatch(changeTodoListFilter({ todolistId, filter }))
-      },
-      [todolistId, dispatch]
-    )
-    return (
-      <ButtonGroup
-        size='medium'
-        aria-label='Small button group'
+export const FilterTasksButtons: FC<Props> = memo(({ filter, todolistId }) => {
+  const dispatch = useAppDispatch()
+  const tasksFilterHandler = useCallback(
+    (filter: FilterValues) => {
+      dispatch(changeTodoListFilter({ todolistId, filter }))
+    },
+    [todolistId, dispatch]
+  )
+  return (
+    <ButtonGroup
+      size='medium'
+      aria-label='Small button group'
+    >
+      <ButtonMui
+        variant={filter === 'all' ? 'contained' : 'outlined'}
+        onClick={() => tasksFilterHandler('all')}
       >
-        <ButtonMui
-          variant={filter === 'all' ? 'contained' : 'outlined'}
-          onClick={() => tasksFilterHandler('all')}
-        >
-          All
-        </ButtonMui>
-        <ButtonMui
-          variant={filter === 'active' ? 'contained' : 'outlined'}
-          onClick={() => tasksFilterHandler('active')}
-        >
-          Active
-        </ButtonMui>
-        <ButtonMui
-          variant={filter === 'completed' ? 'contained' : 'outlined'}
-          color={'success'}
-          onClick={() => tasksFilterHandler('completed')}
-        >
-          Completed
-        </ButtonMui>
-      </ButtonGroup>
-    )
-  }
-)
+        All
+      </ButtonMui>
+      <ButtonMui
+        variant={filter === 'active' ? 'contained' : 'outlined'}
+        onClick={() => tasksFilterHandler('active')}
+      >
+        Active
+      </ButtonMui>
+      <ButtonMui
+        variant={filter === 'completed' ? 'contained' : 'outlined'}
+        color={'success'}
+        onClick={() => tasksFilterHandler('completed')}
+      >
+        Completed
+      </ButtonMui>
+    </ButtonGroup>
+  )
+})

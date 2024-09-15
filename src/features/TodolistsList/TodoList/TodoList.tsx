@@ -12,14 +12,14 @@ import { HeaderTodolist } from './HeaderTodolist/HeaderTodolist'
 import { TasksList } from './TasksList/TasksList'
 import s from './TodoList.module.css'
 
-type ToDoListProps = {
+type Props = {
   title: string
   todolistId: string
   filter: FilterValues
   entityStatus: RequestStatus
 }
 
-export const TodoList: FC<ToDoListProps> = ({
+export const TodoList: FC<Props> = ({
   title,
   todolistId,
   filter,

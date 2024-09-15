@@ -14,26 +14,23 @@ export const todolistSlice = createSlice({
   name: 'todolists',
   initialState,
   reducers: {
-    setTodoListAC(
-      _state,
-      action: PayloadAction<{ todolists: TodolistType[] }>
-    ) {
+    setTodoList(_state, action: PayloadAction<{ todolists: TodolistType[] }>) {
       return action.payload.todolists.map((el) => ({
         ...el,
         filter: 'all',
         entityStatus: 'idle',
       }))
     },
-    deleteTodoListAC(state, action: PayloadAction<{ todolistId: string }>) {
+    deleteTodoList(state, action: PayloadAction<{ todolistId: string }>) {
       return state.filter((el) => el.id !== action.payload.todolistId)
     },
-    addTodoListAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
+    addTodoList(state, action: PayloadAction<{ todolist: TodolistType }>) {
       return [
         { ...action.payload.todolist, filter: 'all', entityStatus: 'idle' },
         ...state,
       ]
     },
-    changeTodoListTitleAC(
+    changeTodoListTitle(
       state,
       action: PayloadAction<{ todolistId: string; title: string }>
     ) {
@@ -43,7 +40,7 @@ export const todolistSlice = createSlice({
           : el
       )
     },
-    changeTodoListFilterAC(
+    changeTodoListFilter(
       state,
       action: PayloadAction<{ todolistId: string; filter: FilterValuesType }>
     ) {
@@ -67,11 +64,11 @@ export const todolistSlice = createSlice({
 })
 
 export const {
-  addTodoListAC,
-  deleteTodoListAC,
-  setTodoListAC,
-  changeTodoListFilterAC,
-  changeTodoListTitleAC,
+  addTodoList,
+  deleteTodoList,
+  setTodoList,
+  changeTodoListFilter,
+  changeTodoListTitle,
   changeEntityStatus,
 } = todolistSlice.actions
 
@@ -80,7 +77,7 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
   todolistAPI
     .getTodos()
     .then((res) => {
-      dispatch(setTodoListAC({ todolists: res.data }))
+      dispatch(setTodoList({ todolists: res.data }))
       dispatch(setLoading({ status: 'succeeded' }))
     })
     .catch((err) => {
@@ -96,7 +93,7 @@ export const addTodoListTC =
       .addTodos(title)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(addTodoListAC({ todolist: res.data.data.item }))
+          dispatch(addTodoList({ todolist: res.data.data.item }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
@@ -114,7 +111,7 @@ export const changeTodoListTC =
       .updateTodos(title, todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(changeTodoListTitleAC({ todolistId, title }))
+          dispatch(changeTodoListTitle({ todolistId, title }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
@@ -133,7 +130,7 @@ export const deleteTodoListTC =
       .deleteTodos(todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(deleteTodoListAC({ todolistId }))
+          dispatch(deleteTodoList({ todolistId }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)

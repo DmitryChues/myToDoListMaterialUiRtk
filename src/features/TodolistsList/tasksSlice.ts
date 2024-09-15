@@ -14,11 +14,7 @@ import {
   handleServerAppError,
   handleServerNetworkError,
 } from 'utils/errorUtils'
-import {
-  addTodoListAC,
-  deleteTodoListAC,
-  setTodoListAC,
-} from './todolistsSlice'
+import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
 
 export type TasksStateType = {
   [key: string]: TaskDomainType[]
@@ -29,7 +25,7 @@ export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    setTasksAC(
+    setTasks(
       state,
       action: PayloadAction<{ todolistId: string; tasks: TaskType[] }>
     ) {
@@ -41,7 +37,7 @@ export const tasksSlice = createSlice({
         })),
       }
     },
-    addTaskAC(state, action: PayloadAction<{ task: TaskType }>) {
+    addTask(state, action: PayloadAction<{ task: TaskType }>) {
       return {
         ...state,
         [action.payload.task.todoListId]: [
@@ -50,7 +46,7 @@ export const tasksSlice = createSlice({
         ],
       }
     },
-    deleteTaskAC(
+    deleteTask(
       state,
       action: PayloadAction<{
         todolistId: string
@@ -64,7 +60,7 @@ export const tasksSlice = createSlice({
         ),
       }
     },
-    updateTaskAC(
+    updateTask(
       state,
       action: PayloadAction<{
         todolistId: string
@@ -103,17 +99,17 @@ export const tasksSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(addTodoListAC, (state, action) => {
+      .addCase(addTodoList, (state, action) => {
         return { ...state, [action.payload.todolist.id]: [] }
       })
-      .addCase(setTodoListAC, (state, action) => {
+      .addCase(setTodoList, (state, action) => {
         const copyState = { ...state }
         action.payload.todolists.forEach((tl) => {
           copyState[tl.id] = []
         })
         return copyState
       })
-      .addCase(deleteTodoListAC, (state, action) => {
+      .addCase(deleteTodoList, (state, action) => {
         const copyState = { ...state }
         delete copyState[action.payload.todolistId]
         return copyState
@@ -122,11 +118,11 @@ export const tasksSlice = createSlice({
 })
 
 export const {
-  addTaskAC,
+  addTask,
   changeEntityTaskStatus,
-  deleteTaskAC,
-  setTasksAC,
-  updateTaskAC,
+  deleteTask,
+  setTasks,
+  updateTask,
 } = tasksSlice.actions
 
 export const getTasksTC =
@@ -136,7 +132,7 @@ export const getTasksTC =
     todolistAPI
       .getTasks(todolistId)
       .then((res) => {
-        dispatch(setTasksAC({ todolistId, tasks: res.data.items }))
+        dispatch(setTasks({ todolistId, tasks: res.data.items }))
         dispatch(setLoading({ status: 'succeeded' }))
       })
       .catch((err) => {
@@ -152,7 +148,7 @@ export const addTaskTC =
       .addTask(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(addTaskAC({ task: res.data.data.item }))
+          dispatch(addTask({ task: res.data.data.item }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
@@ -177,7 +173,7 @@ export const deleteTasksTC =
       .deleteTask(todolistId, taskId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(deleteTaskAC({ todolistId, taskId }))
+          dispatch(deleteTask({ todolistId, taskId }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
@@ -217,7 +213,7 @@ export const updateTaskTC =
         .updateTask(todolistId, taskId, apiModel)
         .then((res) => {
           if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-            dispatch(updateTaskAC({ todolistId, taskId, model: domainModel }))
+            dispatch(updateTask({ todolistId, taskId, model: domainModel }))
             dispatch(setLoading({ status: 'succeeded' }))
           } else {
             handleServerAppError(dispatch, res.data)

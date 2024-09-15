@@ -20,13 +20,13 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setIsLoggedInAC(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+    setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
       return { ...state, isLoggedIn: action.payload.isLoggedIn }
     },
   },
 })
 
-export const { setIsLoggedInAC } = authSlice.actions
+export const { setIsLoggedIn } = authSlice.actions
 
 export const loginTC =
   (data: LoginData): AppThunk =>
@@ -36,7 +36,7 @@ export const loginTC =
       .login(data)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+          dispatch(setIsLoggedIn({ isLoggedIn: true }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -52,7 +52,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     .logout()
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+        dispatch(setIsLoggedIn({ isLoggedIn: false }))
       } else {
         handleServerAppError(dispatch, res.data)
       }
@@ -69,7 +69,7 @@ export const meTC = (): AppThunk => (dispatch) => {
     .me()
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+        dispatch(setIsLoggedIn({ isLoggedIn: true }))
       } else {
         handleServerAppError(dispatch, res.data)
       }

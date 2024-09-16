@@ -19,6 +19,9 @@ import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
 export type TaskDomain = TaskEntity & {
   entityStatus: RequestStatus
 }
+export type TaskDomain = TaskEntity & {
+  entityStatus: RequestStatus
+}
 export type TasksState = {
   tasks: Record<string, TaskDomain[]>
 }
@@ -40,8 +43,15 @@ export const tasksSlice = createSlice({
           entityStatus: 'idle',
         })
       )
+      state.tasks[action.payload.todolistId] = action.payload.tasks.map(
+        (task) => ({
+          ...task,
+          entityStatus: 'idle',
+        })
+      )
     },
     addTask(state, action: PayloadAction<{ task: TaskEntity }>) {
+      const tasks = state.tasks[action.payload.task.todoListId]
       const tasks = state.tasks[action.payload.task.todoListId]
       tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
     },
@@ -52,6 +62,7 @@ export const tasksSlice = createSlice({
         taskId: string
       }>
     ) {
+      const tasks = state.tasks[action.payload.todolistId]
       const tasks = state.tasks[action.payload.todolistId]
       const index = tasks.findIndex((task) => task.id === action.payload.taskId)
       if (index !== -1) tasks.splice(index, 1)
@@ -64,6 +75,7 @@ export const tasksSlice = createSlice({
         model: UpdateTaskDomainModel
       }>
     ) {
+      const tasks = state.tasks[action.payload.todolistId]
       const tasks = state.tasks[action.payload.todolistId]
       const task = tasks.find((task) => task.id === action.payload.taskId)
       if (task) {
@@ -79,6 +91,7 @@ export const tasksSlice = createSlice({
       }>
     ) {
       const tasks = state.tasks[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
       const index = tasks.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
@@ -90,15 +103,23 @@ export const tasksSlice = createSlice({
     builder
       .addCase(addTodoList, (state, action) => {
         state.tasks[action.payload.todolist.id] = []
+        state.tasks[action.payload.todolist.id] = []
       })
       .addCase(setTodoList, (state, action) => {
         action.payload.todolists.forEach((tl) => {
+          state.tasks[tl.id] = []
           state.tasks[tl.id] = []
         })
       })
       .addCase(deleteTodoList, (state, action) => {
         delete state.tasks[action.payload.todolistId]
+        delete state.tasks[action.payload.todolistId]
       })
+  },
+  selectors: {
+    selectTasks(state) {
+      return state.tasks
+    },
   },
   selectors: {
     selectTasks(state) {
@@ -114,6 +135,7 @@ export const {
   setTasks,
   updateTask,
 } = tasksSlice.actions
+export const { selectTasks } = tasksSlice.selectors
 export const { selectTasks } = tasksSlice.selectors
 
 export const getTasksTC =
@@ -189,6 +211,9 @@ export const updateTaskTC =
   ): AppThunk =>
   (dispatch, getState: () => AppRootState) => {
     dispatch(setLoading({ status: 'loading' }))
+    const task = getState().tasks.tasks[todolistId].find(
+      (el) => el.id === taskId
+    )
     const task = getState().tasks.tasks[todolistId].find(
       (el) => el.id === taskId
     )

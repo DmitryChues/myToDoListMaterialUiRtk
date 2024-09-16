@@ -22,43 +22,44 @@ export const todolistSlice = createSlice({
       }))
     },
     deleteTodoList(state, action: PayloadAction<{ todolistId: string }>) {
-      return state.filter((el) => el.id !== action.payload.todolistId)
+      const index = state.findIndex(
+        (todo) => todo.id === action.payload.todolistId
+      )
+      if (index !== -1) state.splice(index, 1)
     },
     addTodoList(state, action: PayloadAction<{ todolist: Todolist }>) {
-      return [
-        { ...action.payload.todolist, filter: 'all', entityStatus: 'idle' },
-        ...state,
-      ]
+      state.unshift({
+        ...action.payload.todolist,
+        filter: 'all',
+        entityStatus: 'idle',
+      })
     },
     changeTodoListTitle(
       state,
       action: PayloadAction<{ todolistId: string; title: string }>
     ) {
-      return state.map((el) =>
-        el.id === action.payload.todolistId
-          ? { ...el, title: action.payload.title }
-          : el
+      const index = state.findIndex(
+        (todo) => todo.id === action.payload.todolistId
       )
+      if (index !== -1) state[index].title = action.payload.title
     },
     changeTodoListFilter(
       state,
       action: PayloadAction<{ todolistId: string; filter: FilterValues }>
     ) {
-      return state.map((el) =>
-        el.id === action.payload.todolistId
-          ? { ...el, filter: action.payload.filter }
-          : el
+      const index = state.findIndex(
+        (todo) => todo.id === action.payload.todolistId
       )
+      if (index !== -1) state[index].filter = action.payload.filter
     },
     changeEntityStatus(
       state,
       action: PayloadAction<{ todolistId: string; entityStatus: RequestStatus }>
     ) {
-      return state.map((el) =>
-        el.id === action.payload.todolistId
-          ? { ...el, entityStatus: action.payload.entityStatus }
-          : el
+      const index = state.findIndex(
+        (todo) => todo.id === action.payload.todolistId
       )
+      if (index !== -1) state[index].entityStatus = action.payload.entityStatus
     },
   },
 })

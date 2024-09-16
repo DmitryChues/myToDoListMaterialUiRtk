@@ -17,13 +17,13 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setLoading(state, action: PayloadAction<{ status: RequestStatus }>) {
-      return { ...state, status: action.payload.status }
+      state.status = action.payload.status
     },
     setError(state, action: PayloadAction<{ error: null | string }>) {
-      return { ...state, error: action.payload.error }
+      state.error = action.payload.error
     },
     setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
-      return { ...state, isInitialized: action.payload.isInitialized }
+      state.isInitialized = action.payload.isInitialized
     },
   },
 })

@@ -29,22 +29,14 @@ export const tasksSlice = createSlice({
       state,
       action: PayloadAction<{ todolistId: string; tasks: TaskEntity[] }>
     ) {
-      return {
-        ...state,
-        [action.payload.todolistId]: action.payload.tasks.map((el) => ({
-          ...el,
-          entityStatus: 'idle',
-        })),
-      }
+      state[action.payload.todolistId] = action.payload.tasks.map((task) => ({
+        ...task,
+        entityStatus: 'idle',
+      }))
     },
     addTask(state, action: PayloadAction<{ task: TaskEntity }>) {
-      return {
-        ...state,
-        [action.payload.task.todoListId]: [
-          { ...action.payload.task, entityStatus: 'idle' },
-          ...state[action.payload.task.todoListId],
-        ],
-      }
+      const tasks = state[action.payload.task.todoListId]
+      tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
     },
     deleteTask(
       state,
@@ -53,12 +45,9 @@ export const tasksSlice = createSlice({
         taskId: string
       }>
     ) {
-      return {
-        ...state,
-        [action.payload.todolistId]: state[action.payload.todolistId].filter(
-          (el) => el.id !== action.payload.taskId
-        ),
-      }
+      const tasks = state[action.payload.todolistId]
+      const index = tasks.findIndex((task) => task.id === action.payload.taskId)
+      if (index !== -1) tasks.splice(index, 1)
     },
     updateTask(
       state,
@@ -68,14 +57,10 @@ export const tasksSlice = createSlice({
         model: UpdateTaskDomainModel
       }>
     ) {
-      return {
-        ...state,
-        [action.payload.todolistId]: state[action.payload.todolistId].map(
-          (el) =>
-            el.id === action.payload.taskId
-              ? { ...el, ...action.payload.model }
-              : el
-        ),
+      const tasks = state[action.payload.todolistId]
+      const task = tasks.find((task) => task.id === action.payload.taskId)
+      if (task) {
+        Object.assign(task, action.payload.model)
       }
     },
     changeEntityTaskStatus(
@@ -86,33 +71,26 @@ export const tasksSlice = createSlice({
         entityTaskStatus: RequestStatus
       }>
     ) {
-      return {
-        ...state,
-        [action.payload.todolistId]: state[action.payload.todolistId].map(
-          (el) =>
-            el.id === action.payload.taskId
-              ? { ...el, entityTaskStatus: action.payload.entityTaskStatus }
-              : el
-        ),
-      }
+      const tasks = state[action.payload.todolistId]
+      const index = tasks.findIndex(
+        (todo) => todo.id === action.payload.todolistId
+      )
+      if (index !== -1)
+        tasks[index].entityStatus = action.payload.entityTaskStatus
     },
   },
   extraReducers(builder) {
     builder
       .addCase(addTodoList, (state, action) => {
-        return { ...state, [action.payload.todolist.id]: [] }
+        state[action.payload.todolist.id] = []
       })
       .addCase(setTodoList, (state, action) => {
-        const copyState = { ...state }
         action.payload.todolists.forEach((tl) => {
-          copyState[tl.id] = []
+          state[tl.id] = []
         })
-        return copyState
       })
       .addCase(deleteTodoList, (state, action) => {
-        const copyState = { ...state }
-        delete copyState[action.payload.todolistId]
-        return copyState
+        delete state[action.payload.todolistId]
       })
   },
 })

@@ -45,33 +45,19 @@ export const todolistSlice = createSlice({
         entityStatus: 'idle',
       })
     },
-    changeTodoListTitle(
+    updateTodolist(
       state,
-      action: PayloadAction<{ todolistId: string; title: string }>
+      action: PayloadAction<{
+        todolistId: string
+        model: UpdateTodolistDomainModel
+      }>
     ) {
       const index = state.todolists.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
-      if (index !== -1) state.todolists[index].title = action.payload.title
-    },
-    changeTodoListFilter(
-      state,
-      action: PayloadAction<{ todolistId: string; filter: FilterValues }>
-    ) {
-      const index = state.todolists.findIndex(
-        (todo) => todo.id === action.payload.todolistId
-      )
-      if (index !== -1) state.todolists[index].filter = action.payload.filter
-    },
-    changeEntityStatus(
-      state,
-      action: PayloadAction<{ todolistId: string; entityStatus: RequestStatus }>
-    ) {
-      const index = state.todolists.findIndex(
-        (todo) => todo.id === action.payload.todolistId
-      )
-      if (index !== -1)
-        state.todolists[index].entityStatus = action.payload.entityStatus
+      if (index !== -1) {
+        Object.assign(state.todolists[index], action.payload.model)
+      }
     },
   },
   selectors: {
@@ -81,14 +67,8 @@ export const todolistSlice = createSlice({
   },
 })
 
-export const {
-  addTodoList,
-  deleteTodoList,
-  setTodoList,
-  changeTodoListFilter,
-  changeTodoListTitle,
-  changeEntityStatus,
-} = todolistSlice.actions
+export const { addTodoList, deleteTodoList, setTodoList, updateTodolist } =
+  todolistSlice.actions
 export const { selectTodolists } = todolistSlice.selectors
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
@@ -130,7 +110,7 @@ export const changeTodoListTC =
       .updateTodos(title, todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(changeTodoListTitle({ todolistId, title }))
+          dispatch(updateTodolist({ todolistId, model: { title } }))
           dispatch(setLoading({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
@@ -144,7 +124,7 @@ export const deleteTodoListTC =
   (todolistId: string): AppThunk =>
   (dispatch) => {
     dispatch(setLoading({ status: 'loading' }))
-    dispatch(changeEntityStatus({ todolistId, entityStatus: 'loading' }))
+    dispatch(updateTodolist({ todolistId, model: { entityStatus: 'loading' } }))
     todolistAPI
       .deleteTodos(todolistId)
       .then((res) => {
@@ -156,7 +136,10 @@ export const deleteTodoListTC =
         }
       })
       .catch((err) => {
-        dispatch(changeEntityStatus({ todolistId, entityStatus: 'idle' }))
+        dispatch(
+          updateTodolist({ todolistId, model: { entityStatus: 'idle' } })
+        )
         handleServerNetworkError(dispatch, err)
       })
   }
+type UpdateTodolistDomainModel = Partial<TodolistDomain>

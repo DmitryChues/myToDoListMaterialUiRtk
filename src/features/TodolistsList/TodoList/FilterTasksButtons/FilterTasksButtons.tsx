@@ -3,7 +3,7 @@ import { FilterValues } from 'app/App'
 import { useAppDispatch } from 'app/store'
 import { ButtonMui } from 'components/ButtonMui/ButtonMui'
 import { FC, memo, useCallback } from 'react'
-import { changeTodoListFilter } from '../../todolistsSlice'
+import { updateTodolist } from '../../todolistsSlice'
 
 type Props = {
   filter: FilterValues
@@ -14,7 +14,7 @@ export const FilterTasksButtons: FC<Props> = memo(({ filter, todolistId }) => {
   const dispatch = useAppDispatch()
   const tasksFilterHandler = useCallback(
     (filter: FilterValues) => {
-      dispatch(changeTodoListFilter({ todolistId, filter }))
+      dispatch(updateTodolist({ todolistId, model: { filter } }))
     },
     [todolistId, dispatch]
   )

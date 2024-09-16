@@ -1,14 +1,16 @@
 import Grid from '@mui/material/Grid'
-import { useAppDispatch, useAppSelector } from 'app/store'
+import { useAppDispatch } from 'app/store'
 import { AddItemForm } from 'components/AddItemForm/AddItemForm'
+import { selectIsLoggedIn } from 'features/Login/authSlice'
 import { useCallback, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { TodoList } from './TodoList/TodoList'
-import { addTodoListTC, getTodosTC } from './todolistsSlice'
+import { addTodoListTC, getTodosTC, selectTodolists } from './todolistsSlice'
 
 export const TodolistsList = () => {
-  const todolists = useAppSelector((state) => state.todolists)
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const todolists = useSelector(selectTodolists)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const addTodoList = useCallback(
     (title: string) => {

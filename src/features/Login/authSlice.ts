@@ -24,9 +24,15 @@ export const authSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn
     },
   },
+  selectors: {
+    selectIsLoggedIn(state) {
+      return state.isLoggedIn
+    },
+  },
 })
 
 export const { setIsLoggedIn } = authSlice.actions
+export const { selectIsLoggedIn } = authSlice.selectors
 
 export const loginTC =
   (data: LoginData): AppThunk =>

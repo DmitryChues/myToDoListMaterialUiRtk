@@ -6,10 +6,11 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { useAppDispatch, useAppSelector } from 'app/store'
+import { useAppDispatch } from 'app/store'
 import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import { loginTC } from './authSlice'
+import { loginTC, selectIsLoggedIn } from './authSlice'
 
 export type LoginData = {
   email: string
@@ -25,7 +26,7 @@ type Error = {
 
 export const Login = () => {
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
   const formik = useFormik({
     initialValues: {
       email: '',

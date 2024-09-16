@@ -93,6 +93,11 @@ export const tasksSlice = createSlice({
         delete state[action.payload.todolistId]
       })
   },
+  selectors: {
+    selectTasks(state) {
+      return state
+    },
+  },
 })
 
 export const {
@@ -102,6 +107,7 @@ export const {
   setTasks,
   updateTask,
 } = tasksSlice.actions
+export const { selectTasks } = tasksSlice.selectors
 
 export const getTasksTC =
   (todolistId: string): AppThunk =>

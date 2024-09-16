@@ -62,6 +62,11 @@ export const todolistSlice = createSlice({
       if (index !== -1) state[index].entityStatus = action.payload.entityStatus
     },
   },
+  selectors: {
+    selectTodolists(state) {
+      return state
+    },
+  },
 })
 
 export const {
@@ -72,6 +77,7 @@ export const {
   changeTodoListTitle,
   changeEntityStatus,
 } = todolistSlice.actions
+export const { selectTodolists } = todolistSlice.selectors
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
   dispatch(setLoading({ status: 'loading' }))

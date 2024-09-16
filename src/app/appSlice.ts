@@ -26,6 +26,19 @@ export const appSlice = createSlice({
       state.isInitialized = action.payload.isInitialized
     },
   },
+  selectors: {
+    selectAppError(state) {
+      return state.error
+    },
+    selectAppStatus(state) {
+      return state.status
+    },
+    selectAppInitialized(state) {
+      return state.isInitialized
+    },
+  },
 })
 
 export const { setError, setIsInitialized, setLoading } = appSlice.actions
+export const { selectAppError, selectAppInitialized, selectAppStatus } =
+  appSlice.selectors

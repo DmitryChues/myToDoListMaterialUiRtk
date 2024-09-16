@@ -11,7 +11,6 @@ import { LoginData } from './Login'
 type InitialState = {
   isLoggedIn: boolean
 }
-
 const initialState: InitialState = {
   isLoggedIn: false,
 }

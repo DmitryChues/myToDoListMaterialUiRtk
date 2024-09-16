@@ -16,10 +16,18 @@ import {
 } from 'utils/errorUtils'
 import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
 
-export type TasksState = {
-  [key: string]: TaskDomain[]
+export type TaskDomain = TaskEntity & {
+  entityStatus: RequestStatus
 }
-const initialState: TasksState = {}
+export type TaskDomain = TaskEntity & {
+  entityStatus: RequestStatus
+}
+export type TasksState = {
+  tasks: Record<string, TaskDomain[]>
+}
+const initialState: TasksState = {
+  tasks: {},
+}
 
 export const tasksSlice = createSlice({
   name: 'tasks',
@@ -29,13 +37,22 @@ export const tasksSlice = createSlice({
       state,
       action: PayloadAction<{ todolistId: string; tasks: TaskEntity[] }>
     ) {
-      state[action.payload.todolistId] = action.payload.tasks.map((task) => ({
-        ...task,
-        entityStatus: 'idle',
-      }))
+      state.tasks[action.payload.todolistId] = action.payload.tasks.map(
+        (task) => ({
+          ...task,
+          entityStatus: 'idle',
+        })
+      )
+      state.tasks[action.payload.todolistId] = action.payload.tasks.map(
+        (task) => ({
+          ...task,
+          entityStatus: 'idle',
+        })
+      )
     },
     addTask(state, action: PayloadAction<{ task: TaskEntity }>) {
-      const tasks = state[action.payload.task.todoListId]
+      const tasks = state.tasks[action.payload.task.todoListId]
+      const tasks = state.tasks[action.payload.task.todoListId]
       tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
     },
     deleteTask(
@@ -45,7 +62,8 @@ export const tasksSlice = createSlice({
         taskId: string
       }>
     ) {
-      const tasks = state[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
       const index = tasks.findIndex((task) => task.id === action.payload.taskId)
       if (index !== -1) tasks.splice(index, 1)
     },
@@ -57,7 +75,8 @@ export const tasksSlice = createSlice({
         model: UpdateTaskDomainModel
       }>
     ) {
-      const tasks = state[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
       const task = tasks.find((task) => task.id === action.payload.taskId)
       if (task) {
         Object.assign(task, action.payload.model)
@@ -71,7 +90,8 @@ export const tasksSlice = createSlice({
         entityTaskStatus: RequestStatus
       }>
     ) {
-      const tasks = state[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
+      const tasks = state.tasks[action.payload.todolistId]
       const index = tasks.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
@@ -82,16 +102,25 @@ export const tasksSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(addTodoList, (state, action) => {
-        state[action.payload.todolist.id] = []
+        state.tasks[action.payload.todolist.id] = []
+        state.tasks[action.payload.todolist.id] = []
       })
       .addCase(setTodoList, (state, action) => {
         action.payload.todolists.forEach((tl) => {
-          state[tl.id] = []
+          state.tasks[tl.id] = []
+          state.tasks[tl.id] = []
         })
       })
       .addCase(deleteTodoList, (state, action) => {
-        delete state[action.payload.todolistId]
+        delete state.tasks[action.payload.todolistId]
+        delete state.tasks[action.payload.todolistId]
       })
+  },
+  selectors: {
+    selectTasks(state) {
+      return state.tasks
+      return state.tasks
+    },
   },
 })
 
@@ -102,6 +131,7 @@ export const {
   setTasks,
   updateTask,
 } = tasksSlice.actions
+export const { selectTasks } = tasksSlice.selectors
 
 export const getTasksTC =
   (todolistId: string): AppThunk =>
@@ -176,7 +206,12 @@ export const updateTaskTC =
   ): AppThunk =>
   (dispatch, getState: () => AppRootState) => {
     dispatch(setLoading({ status: 'loading' }))
-    const task = getState().tasks[todolistId].find((el) => el.id === taskId)
+    const task = getState().tasks.tasks[todolistId].find(
+      (el) => el.id === taskId
+    )
+    const task = getState().tasks.tasks[todolistId].find(
+      (el) => el.id === taskId
+    )
     if (task) {
       const apiModel: UpdateTaskModel = {
         title: task.title,
@@ -202,11 +237,6 @@ export const updateTaskTC =
         })
     }
   }
-
-export type TaskDomain = TaskEntity & {
-  entityStatus: RequestStatus
-}
-
 type UpdateTaskDomainModel = {
   title?: string
   description?: string

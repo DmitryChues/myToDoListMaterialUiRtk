@@ -8,27 +8,38 @@ import {
   handleServerNetworkError,
 } from '../../utils/errorUtils'
 
-const initialState: TodolistDomain[] = []
+type TodolistDomain = Todolist & {
+  filter: FilterValues
+  entityStatus: RequestStatus
+}
+type TodolistInitialState = {
+  todolists: TodolistDomain[]
+}
+const initialState: TodolistInitialState = {
+  todolists: [],
+}
 
 export const todolistSlice = createSlice({
   name: 'todolists',
   initialState,
   reducers: {
     setTodoList(_state, action: PayloadAction<{ todolists: Todolist[] }>) {
-      return action.payload.todolists.map((el) => ({
-        ...el,
-        filter: 'all',
-        entityStatus: 'idle',
-      }))
+      return {
+        todolists: action.payload.todolists.map((el) => ({
+          ...el,
+          filter: 'all',
+          entityStatus: 'idle',
+        })),
+      }
     },
     deleteTodoList(state, action: PayloadAction<{ todolistId: string }>) {
-      const index = state.findIndex(
+      const index = state.todolists.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
-      if (index !== -1) state.splice(index, 1)
+      if (index !== -1) state.todolists.splice(index, 1)
     },
     addTodoList(state, action: PayloadAction<{ todolist: Todolist }>) {
-      state.unshift({
+      state.todolists.unshift({
         ...action.payload.todolist,
         filter: 'all',
         entityStatus: 'idle',
@@ -38,28 +49,34 @@ export const todolistSlice = createSlice({
       state,
       action: PayloadAction<{ todolistId: string; title: string }>
     ) {
-      const index = state.findIndex(
+      const index = state.todolists.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
-      if (index !== -1) state[index].title = action.payload.title
+      if (index !== -1) state.todolists[index].title = action.payload.title
     },
     changeTodoListFilter(
       state,
       action: PayloadAction<{ todolistId: string; filter: FilterValues }>
     ) {
-      const index = state.findIndex(
+      const index = state.todolists.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
-      if (index !== -1) state[index].filter = action.payload.filter
+      if (index !== -1) state.todolists[index].filter = action.payload.filter
     },
     changeEntityStatus(
       state,
       action: PayloadAction<{ todolistId: string; entityStatus: RequestStatus }>
     ) {
-      const index = state.findIndex(
+      const index = state.todolists.findIndex(
         (todo) => todo.id === action.payload.todolistId
       )
-      if (index !== -1) state[index].entityStatus = action.payload.entityStatus
+      if (index !== -1)
+        state.todolists[index].entityStatus = action.payload.entityStatus
+    },
+  },
+  selectors: {
+    selectTodolists(state) {
+      return state.todolists
     },
   },
 })
@@ -72,6 +89,7 @@ export const {
   changeTodoListTitle,
   changeEntityStatus,
 } = todolistSlice.actions
+export const { selectTodolists } = todolistSlice.selectors
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
   dispatch(setLoading({ status: 'loading' }))
@@ -142,7 +160,3 @@ export const deleteTodoListTC =
         handleServerNetworkError(dispatch, err)
       })
   }
-export type TodolistDomain = Todolist & {
-  filter: FilterValues
-  entityStatus: RequestStatus
-}

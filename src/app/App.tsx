@@ -8,12 +8,13 @@ import LinearProgress from '@mui/material/LinearProgress'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import CustomizedSnackbars from 'components/ErrorSnackbar/ErrorSnackbar'
-import { logoutTC, meTC } from 'features/Login/authSlice'
+import { logoutTC, meTC, selectIsLoggedIn } from 'features/Login/authSlice'
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import './App.css'
-import { RequestStatus } from './appSlice'
-import { useAppDispatch, useAppSelector } from './store'
+import { selectAppInitialized, selectAppStatus } from './appSlice'
+import { useAppDispatch } from './store'
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
@@ -28,11 +29,9 @@ export type Tasks = {
 
 function App() {
   const dispatch = useAppDispatch()
-  const status = useAppSelector<RequestStatus>((state) => state.app.status)
-  const isInitialized = useAppSelector<boolean>(
-    (state) => state.app.isInitialized
-  )
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
+  const status = useSelector(selectAppStatus)
+  const isInitialized = useSelector(selectAppInitialized)
+  const isLoggedIn = useSelector(selectIsLoggedIn)
 
   const logOut = () => {
     dispatch(logoutTC())

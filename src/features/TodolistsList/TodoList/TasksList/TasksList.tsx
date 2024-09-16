@@ -4,9 +4,15 @@ import Button from '@mui/material/Button'
 import { TaskStatuses } from 'api/todolistAPI'
 import { FilterValues } from 'app/App'
 import { RequestStatus } from 'app/appSlice'
-import { useAppDispatch, useAppSelector } from 'app/store'
+import { useAppDispatch } from 'app/store'
 import { FC, memo, useEffect } from 'react'
-import { deleteTasksTC, getTasksTC, TaskDomain } from '../../tasksSlice'
+import { useSelector } from 'react-redux'
+import {
+  deleteTasksTC,
+  getTasksTC,
+  selectTasks,
+  TaskDomain,
+} from '../../tasksSlice'
 import { Task } from './Task/Task'
 import s from './TaskList.module.css'
 
@@ -18,7 +24,7 @@ type Props = {
 
 export const TasksList: FC<Props> = memo(
   ({ todolistId, filter, entityStatus }) => {
-    const tasks = useAppSelector((state) => state.tasks[todolistId])
+    const tasks = useSelector(selectTasks)[todolistId]
     const dispatch = useAppDispatch()
     useEffect(() => {
       dispatch(getTasksTC(todolistId))

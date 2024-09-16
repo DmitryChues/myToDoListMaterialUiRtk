@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-const initialState: InitialState = {
-  isInitialized: false,
-  status: 'idle',
-  error: null,
-}
-type InitialState = {
+type AppInitialState = {
   isInitialized: boolean
   status: RequestStatus
   error: null | string
+}
+const initialState: AppInitialState = {
+  isInitialized: false,
+  status: 'idle',
+  error: null,
 }
 
 export const appSlice = createSlice({
@@ -26,6 +26,19 @@ export const appSlice = createSlice({
       state.isInitialized = action.payload.isInitialized
     },
   },
+  selectors: {
+    selectAppError(state) {
+      return state.error
+    },
+    selectAppStatus(state) {
+      return state.status
+    },
+    selectAppInitialized(state) {
+      return state.isInitialized
+    },
+  },
 })
 
 export const { setError, setIsInitialized, setLoading } = appSlice.actions
+export const { selectAppError, selectAppInitialized, selectAppStatus } =
+  appSlice.selectors

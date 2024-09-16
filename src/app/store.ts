@@ -4,10 +4,10 @@ import {
   UnknownAction,
 } from '@reduxjs/toolkit'
 import { authSlice } from 'features/Login/authSlice'
+import { tasksSlice } from 'features/TodolistsList/tasksSlice'
+import { todolistSlice } from 'features/TodolistsList/todolistsSlice'
 import { useDispatch } from 'react-redux'
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { tasksSlice } from '../features/TodolistsList/tasksSlice'
-import { todolistSlice } from '../features/TodolistsList/todolistsSlice'
 import { appSlice } from './appSlice'
 
 const rootReducer = combineReducers({

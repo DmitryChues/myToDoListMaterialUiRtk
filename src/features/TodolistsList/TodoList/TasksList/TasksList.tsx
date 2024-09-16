@@ -1,16 +1,15 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from '@mui/material/Button'
-import { TaskStatuses } from 'api/todolistAPI'
 import { FilterValues } from 'app/App'
 import { RequestStatus } from 'app/appSlice'
-import { useAppDispatch } from 'app/store'
+import { AppRootState, useAppDispatch } from 'app/store'
 import { FC, memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import {
   deleteTasksTC,
   getTasksTC,
-  selectTasks,
+  selectFilteredTask,
   TaskDomain,
 } from '../../tasksSlice'
 import { Task } from './Task/Task'
@@ -24,7 +23,9 @@ type Props = {
 
 export const TasksList: FC<Props> = memo(
   ({ todolistId, filter, entityStatus }) => {
-    const tasks = useSelector(selectTasks)[todolistId]
+    const tasks = useSelector<AppRootState, TaskDomain[]>((state) =>
+      selectFilteredTask(state, filter, todolistId)
+    )
     const dispatch = useAppDispatch()
     useEffect(() => {
       dispatch(getTasksTC(todolistId))
@@ -32,21 +33,6 @@ export const TasksList: FC<Props> = memo(
 
     const [listRef] = useAutoAnimate<HTMLUListElement>()
 
-    //todo: вынести в селектор
-    const getFilteredTasks = (
-      allTasks: TaskDomain[],
-      filterValue: FilterValues
-    ) => {
-      switch (filterValue) {
-        case 'active':
-          return allTasks.filter((t) => t.status === TaskStatuses.New)
-        case 'completed':
-          return allTasks.filter((t) => t.status === TaskStatuses.Completed)
-        default:
-          return allTasks
-      }
-    }
-    const tasksForTodoList = getFilteredTasks(tasks, filter)
     const deleteAllTasks = () => {
       tasks.forEach((el) => {
         dispatch(deleteTasksTC(todolistId, el.id))
@@ -57,7 +43,7 @@ export const TasksList: FC<Props> = memo(
         ref={listRef}
         className={s.tasksWrapper}
       >
-        {tasksForTodoList.map((task) => {
+        {tasks.map((task) => {
           return (
             <li key={task.id}>
               <Task

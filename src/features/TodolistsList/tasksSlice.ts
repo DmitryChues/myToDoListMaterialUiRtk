@@ -7,6 +7,7 @@ import {
   todolistAPI,
   UpdateTaskModel,
 } from 'api/todolistAPI'
+import { FilterValues } from 'app/App'
 import { RequestStatus, setLoading } from 'app/appSlice'
 import { AppRootState, AppThunk } from 'app/store'
 import { AxiosError } from 'axios'
@@ -101,8 +102,19 @@ export const tasksSlice = createSlice({
       })
   },
   selectors: {
-    selectTasks(state) {
-      return state.tasks
+    selectFilteredTask(state, filter: FilterValues, todolistId: string) {
+      switch (filter) {
+        case 'active':
+          return state.tasks[todolistId].filter(
+            (t) => t.status === TaskStatuses.New
+          )
+        case 'completed':
+          return state.tasks[todolistId].filter(
+            (t) => t.status === TaskStatuses.Completed
+          )
+        default:
+          return state.tasks[todolistId]
+      }
     },
   },
 })
@@ -114,7 +126,7 @@ export const {
   setTasks,
   updateTask,
 } = tasksSlice.actions
-export const { selectTasks } = tasksSlice.selectors
+export const { selectFilteredTask } = tasksSlice.selectors
 
 export const getTasksTC =
   (todolistId: string): AppThunk =>

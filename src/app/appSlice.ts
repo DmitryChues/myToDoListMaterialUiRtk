@@ -16,7 +16,7 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setLoading(state, action: PayloadAction<{ status: RequestStatus }>) {
+    setAppStatus(state, action: PayloadAction<{ status: RequestStatus }>) {
       state.status = action.payload.status
     },
     setError(state, action: PayloadAction<{ error: null | string }>) {
@@ -39,6 +39,6 @@ export const appSlice = createSlice({
   },
 })
 
-export const { setError, setIsInitialized, setLoading } = appSlice.actions
+export const { setError, setIsInitialized, setAppStatus } = appSlice.actions
 export const { selectAppError, selectAppInitialized, selectAppStatus } =
   appSlice.selectors

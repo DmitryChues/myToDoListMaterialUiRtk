@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { authAPI, STATUS_CODE } from 'api/todolistAPI'
-import { setIsInitialized, setLoading } from 'app/appSlice'
+import { setAppStatus, setIsInitialized } from 'app/appSlice'
 import { AppThunk } from 'app/store'
 import {
   handleServerAppError,
@@ -36,7 +36,7 @@ export const { selectIsLoggedIn } = authSlice.selectors
 export const loginTC =
   (data: LoginData): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading({ status: 'loading' }))
+    dispatch(setAppStatus({ status: 'loading' }))
     authAPI
       .login(data)
       .then((res) => {
@@ -45,14 +45,14 @@ export const loginTC =
         } else {
           handleServerAppError(dispatch, res.data)
         }
-        dispatch(setLoading({ status: 'succeeded' }))
+        dispatch(setAppStatus({ status: 'succeeded' }))
       })
       .catch((e) => {
         handleServerNetworkError(dispatch, e)
       })
   }
 export const logoutTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading({ status: 'loading' }))
+  dispatch(setAppStatus({ status: 'loading' }))
   authAPI
     .logout()
     .then((res) => {
@@ -61,7 +61,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setLoading({ status: 'succeeded' }))
+      dispatch(setAppStatus({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)
@@ -69,7 +69,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 }
 
 export const meTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading({ status: 'loading' }))
+  dispatch(setAppStatus({ status: 'loading' }))
   authAPI
     .me()
     .then((res) => {
@@ -78,7 +78,7 @@ export const meTC = (): AppThunk => (dispatch) => {
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setLoading({ status: 'succeeded' }))
+      dispatch(setAppStatus({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)

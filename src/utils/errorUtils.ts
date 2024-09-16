@@ -1,5 +1,5 @@
 import { Response } from 'api/todolistAPI'
-import { setError, setLoading } from 'app/appSlice'
+import { setAppStatus, setError } from 'app/appSlice'
 import { Dispatch } from 'redux'
 
 type ErrorUtilsDispatch = Dispatch
@@ -8,7 +8,7 @@ export const handleServerNetworkError = (
   dispatch: ErrorUtilsDispatch,
   e: { message: string }
 ) => {
-  dispatch(setLoading({ status: 'failed' }))
+  dispatch(setAppStatus({ status: 'failed' }))
   dispatch(setError({ error: e.message }))
 }
 
@@ -21,5 +21,5 @@ export const handleServerAppError = <T>(
   } else {
     dispatch(setError({ error: 'something error' }))
   }
-  dispatch(setLoading({ status: 'failed' }))
+  dispatch(setAppStatus({ status: 'failed' }))
 }

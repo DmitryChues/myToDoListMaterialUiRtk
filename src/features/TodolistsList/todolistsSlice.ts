@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { STATUS_CODE, Todolist, todolistAPI } from 'api/todolistAPI'
 import { FilterValues } from 'app/App'
-import { RequestStatus, setLoading } from 'app/appSlice'
+import { RequestStatus, setAppStatus } from 'app/appSlice'
 import { AppThunk } from 'app/store'
 import {
   handleServerAppError,
@@ -72,12 +72,12 @@ export const { addTodoList, deleteTodoList, setTodoList, updateTodolist } =
 export const { selectTodolists } = todolistSlice.selectors
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
-  dispatch(setLoading({ status: 'loading' }))
+  dispatch(setAppStatus({ status: 'loading' }))
   todolistAPI
     .getTodos()
     .then((res) => {
       dispatch(setTodoList({ todolists: res.data }))
-      dispatch(setLoading({ status: 'succeeded' }))
+      dispatch(setAppStatus({ status: 'succeeded' }))
     })
     .catch((err) => {
       handleServerNetworkError(dispatch, err)
@@ -87,13 +87,13 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
 export const addTodoListTC =
   (title: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading({ status: 'loading' }))
+    dispatch(setAppStatus({ status: 'loading' }))
     todolistAPI
       .addTodos(title)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(addTodoList({ todolist: res.data.data.item }))
-          dispatch(setLoading({ status: 'succeeded' }))
+          dispatch(setAppStatus({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -105,13 +105,13 @@ export const addTodoListTC =
 export const changeTodoListTC =
   (title: string, todolistId: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading({ status: 'loading' }))
+    dispatch(setAppStatus({ status: 'loading' }))
     todolistAPI
       .updateTodos(title, todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(updateTodolist({ todolistId, model: { title } }))
-          dispatch(setLoading({ status: 'succeeded' }))
+          dispatch(setAppStatus({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
@@ -123,14 +123,14 @@ export const changeTodoListTC =
 export const deleteTodoListTC =
   (todolistId: string): AppThunk =>
   (dispatch) => {
-    dispatch(setLoading({ status: 'loading' }))
+    dispatch(setAppStatus({ status: 'loading' }))
     dispatch(updateTodolist({ todolistId, model: { entityStatus: 'loading' } }))
     todolistAPI
       .deleteTodos(todolistId)
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(deleteTodoList({ todolistId }))
-          dispatch(setLoading({ status: 'succeeded' }))
+          dispatch(setAppStatus({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }

@@ -19,7 +19,7 @@ export const Task = memo((props: Props) => {
   const dispatch = useAppDispatch()
   const { task, todolistId, entityStatus, entityTaskStatus } = props
   const deleteTask = () => {
-    dispatch(deleteTasksTC(todolistId, task.id))
+    dispatch(deleteTasksTC({ todolistId, taskId: task.id }))
   }
   const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const status = e.currentTarget.checked

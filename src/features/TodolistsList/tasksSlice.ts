@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { FilterValues } from 'app/App'
-import { RequestStatus, setAppStatus } from 'app/appSlice'
-import { AppThunk } from 'app/store'
+import { RequestStatus } from 'app/appSlice'
 import {
   handleServerAppError,
   handleServerNetworkError,
@@ -28,34 +27,7 @@ const initialState: TasksState = {
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {
-    deleteTask(
-      state,
-      action: PayloadAction<{
-        todolistId: string
-        taskId: string
-      }>
-    ) {
-      const tasks = state.tasks[action.payload.todolistId]
-      const index = tasks.findIndex((task) => task.id === action.payload.taskId)
-      if (index !== -1) tasks.splice(index, 1)
-    },
-    changeEntityTaskStatus(
-      state,
-      action: PayloadAction<{
-        todolistId: string
-        taskId: string
-        entityTaskStatus: RequestStatus
-      }>
-    ) {
-      const tasks = state.tasks[action.payload.todolistId]
-      const index = tasks.findIndex(
-        (todo) => todo.id === action.payload.todolistId
-      )
-      if (index !== -1)
-        tasks[index].entityStatus = action.payload.entityTaskStatus
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(addTodoList, (state, action) => {
@@ -88,6 +60,31 @@ export const tasksSlice = createSlice({
           Object.assign(task, action.payload.model)
         }
       })
+      .addCase(deleteTasksTC.pending, (state, action) => {
+        const tasks = state.tasks[action.meta.arg.todolistId]
+        const index = tasks.findIndex(
+          (task) => task.id === action.meta.arg.taskId
+        )
+        if (index !== -1) {
+          tasks[index].entityStatus = 'loading'
+        }
+      })
+      .addCase(deleteTasksTC.fulfilled, (state, action) => {
+        const tasks = state.tasks[action.payload.todolistId]
+        const index = tasks.findIndex(
+          (task) => task.id === action.payload.taskId
+        )
+        if (index !== -1) tasks.splice(index, 1)
+      })
+      .addCase(deleteTasksTC.rejected, (state, action) => {
+        const tasks = state.tasks[action.meta.arg.todolistId]
+        const index = tasks.findIndex(
+          (task) => task.id === action.meta.arg.taskId
+        )
+        if (index !== -1) {
+          tasks[index].entityStatus = 'idle'
+        }
+      })
   },
   selectors: {
     selectFilteredTask(state, filter: FilterValues, todolistId: string) {
@@ -107,7 +104,6 @@ export const tasksSlice = createSlice({
   },
 })
 
-export const { changeEntityTaskStatus, deleteTask } = tasksSlice.actions
 export const { selectFilteredTask } = tasksSlice.selectors
 
 export const getTasksTC = createAppAsyncThunk<
@@ -132,7 +128,7 @@ export const addTaskTC = createAppAsyncThunk<
 >('tasks/addTask', async ({ title, todolistId }, thunkApi) => {
   const { dispatch, rejectWithValue } = thunkApi
   try {
-    const res = await todolistAPI.addTask(todolistId, title)
+    const res = await todolistAPI.addTask({ todolistId, title })
     if (res.data.resultCode === STATUS_CODE.SUCCESS) {
       const task = res.data.data.item
       return { task }
@@ -145,38 +141,24 @@ export const addTaskTC = createAppAsyncThunk<
     return rejectWithValue(null)
   }
 })
-export const deleteTasksTC =
-  (todolistId: string, taskId: string): AppThunk =>
-  (dispatch) => {
-    dispatch(
-      changeEntityTaskStatus({
-        todolistId,
-        taskId,
-        entityTaskStatus: 'loading',
-      })
-    )
-    dispatch(setAppStatus({ status: 'loading' }))
-    todolistAPI
-      .deleteTask(todolistId, taskId)
-      .then((res) => {
-        if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-          dispatch(deleteTask({ todolistId, taskId }))
-          dispatch(setAppStatus({ status: 'succeeded' }))
-        } else {
-          handleServerAppError(dispatch, res.data)
-        }
-      })
-      .catch((err) => {
-        dispatch(
-          changeEntityTaskStatus({
-            todolistId,
-            taskId,
-            entityTaskStatus: 'idle',
-          })
-        )
-        handleServerNetworkError(dispatch, err)
-      })
+export const deleteTasksTC = createAppAsyncThunk<
+  { todolistId: string; taskId: string },
+  { todolistId: string; taskId: string }
+>('tasks/deleteTask', async ({ todolistId, taskId }, thunkApi) => {
+  const { dispatch, rejectWithValue } = thunkApi
+  try {
+    const res = await todolistAPI.deleteTask(todolistId, taskId)
+    if (res.data.resultCode === STATUS_CODE.SUCCESS) {
+      return { todolistId, taskId }
+    } else {
+      handleServerAppError(dispatch, res.data)
+      return rejectWithValue(null)
+    }
+  } catch (err) {
+    handleServerNetworkError(dispatch, err)
+    return rejectWithValue(null)
   }
+})
 
 type UpdateTaskArg = {
   todolistId: string

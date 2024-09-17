@@ -57,9 +57,9 @@ export const todolistAPI = {
   getTasks(todoId: string) {
     return instance.get<GetTasksResponse>(`/todo-lists/${todoId}/tasks`)
   },
-  addTask(todoId: string, title: string) {
+  addTask({ todolistId, title }: { todolistId: string; title: string }) {
     return instance.post<Response<{ item: TaskEntity }>>(
-      `/todo-lists/${todoId}/tasks`,
+      `/todo-lists/${todolistId}/tasks`,
       { title }
     )
   },

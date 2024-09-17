@@ -35,7 +35,7 @@ export const TasksList: FC<Props> = memo(
 
     const deleteAllTasks = () => {
       tasks.forEach((el) => {
-        dispatch(deleteTasksTC(todolistId, el.id))
+        dispatch(deleteTasksTC({ todolistId, taskId: el.id }))
       })
     }
     const tasksItems: JSX.Element = tasks.length ? (

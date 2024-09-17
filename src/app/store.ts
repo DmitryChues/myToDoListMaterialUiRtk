@@ -1,13 +1,14 @@
 import {
   combineReducers,
   configureStore,
+  ThunkAction,
+  ThunkDispatch,
   UnknownAction,
 } from '@reduxjs/toolkit'
 import { authSlice } from 'features/Login/authSlice'
 import { tasksSlice } from 'features/TodolistsList/tasksSlice'
 import { todolistSlice } from 'features/TodolistsList/todolistsSlice'
 import { useDispatch } from 'react-redux'
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { appSlice } from './appSlice'
 
 const rootReducer = combineReducers({
@@ -21,11 +22,7 @@ export const store = configureStore({ reducer: rootReducer })
 
 export type AppRootState = ReturnType<typeof store.getState>
 
-export type AppThunkDispatch = ThunkDispatch<
-  AppRootState,
-  unknown,
-  UnknownAction
->
+export type AppDispatch = ThunkDispatch<AppRootState, unknown, UnknownAction>
 
 export type AppThunk<Return = void> = ThunkAction<
   Return,
@@ -34,7 +31,7 @@ export type AppThunk<Return = void> = ThunkAction<
   UnknownAction
 >
 
-export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 //export const useAppSelector: TypedUseSelectorHook<AppRootState> = useSelector
 
 // @ts-ignore

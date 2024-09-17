@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { addTaskTC, getTasksTC } from 'features/TodolistsList/tasksSlice'
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 type AppInitialState = {
@@ -36,6 +37,21 @@ export const appSlice = createSlice({
     selectAppInitialized(state) {
       return state.isInitialized
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(getTasksTC.pending, (state, _action) => {
+        state.status = 'loading'
+      })
+      .addCase(getTasksTC.fulfilled, (state, _action) => {
+        state.status = 'succeeded'
+      })
+      .addCase(addTaskTC.pending, (state, _action) => {
+        state.status = 'loading'
+      })
+      .addCase(addTaskTC.fulfilled, (state, _action) => {
+        state.status = 'succeeded'
+      })
   },
 })
 

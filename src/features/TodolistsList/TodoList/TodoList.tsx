@@ -45,7 +45,7 @@ export const TodoList: FC<Props> = ({
 
   const addTask = useCallback(
     (title: string) => {
-      dispatch(addTaskTC(todolistId, title))
+      dispatch(addTaskTC({ todolistId, title }))
     },
     [todolistId, dispatch]
   )

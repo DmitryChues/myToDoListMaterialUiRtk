@@ -9,7 +9,7 @@ import {
 } from 'api/todolistAPI'
 import { FilterValues } from 'app/App'
 import { RequestStatus, setAppStatus } from 'app/appSlice'
-import { AppRootState, AppThunk } from 'app/store'
+import { AppThunk } from 'app/store'
 import { createAppAsyncThunk } from 'hooks/useAppAsyncThunk'
 import {
   handleServerAppError,
@@ -31,10 +31,6 @@ export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    //addTask(state, action: PayloadAction<{ task: TaskEntity }>) {
-    //  const tasks = state.tasks[action.payload.task.todoListId]
-    //  tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
-    //},
     deleteTask(
       state,
       action: PayloadAction<{
@@ -45,20 +41,6 @@ export const tasksSlice = createSlice({
       const tasks = state.tasks[action.payload.todolistId]
       const index = tasks.findIndex((task) => task.id === action.payload.taskId)
       if (index !== -1) tasks.splice(index, 1)
-    },
-    updateTask(
-      state,
-      action: PayloadAction<{
-        todolistId: string
-        taskId: string
-        model: UpdateTaskDomainModel
-      }>
-    ) {
-      const tasks = state.tasks[action.payload.todolistId]
-      const task = tasks.find((task) => task.id === action.payload.taskId)
-      if (task) {
-        Object.assign(task, action.payload.model)
-      }
     },
     changeEntityTaskStatus(
       state,
@@ -101,6 +83,13 @@ export const tasksSlice = createSlice({
         const tasks = state.tasks[action.payload.task.todoListId]
         tasks.unshift({ ...action.payload.task, entityStatus: 'idle' })
       })
+      .addCase(updateTaskTC.fulfilled, (state, action) => {
+        const tasks = state.tasks[action.payload.todolistId]
+        const task = tasks.find((task) => task.id === action.payload.taskId)
+        if (task) {
+          Object.assign(task, action.payload.model)
+        }
+      })
   },
   selectors: {
     selectFilteredTask(state, filter: FilterValues, todolistId: string) {
@@ -120,8 +109,7 @@ export const tasksSlice = createSlice({
   },
 })
 
-export const { changeEntityTaskStatus, deleteTask, updateTask } =
-  tasksSlice.actions
+export const { changeEntityTaskStatus, deleteTask } = tasksSlice.actions
 export const { selectFilteredTask } = tasksSlice.selectors
 
 export const getTasksTC = createAppAsyncThunk<
@@ -191,42 +179,41 @@ export const deleteTasksTC =
         handleServerNetworkError(dispatch, err)
       })
   }
-export const updateTaskTC =
-  (
-    todolistId: string,
-    taskId: string,
-    domainModel: UpdateTaskDomainModel
-  ): AppThunk =>
-  (dispatch, getState: () => AppRootState) => {
-    dispatch(setAppStatus({ status: 'loading' }))
+
+type UpdateTaskArg = {
+  todolistId: string
+  taskId: string
+  model: UpdateTaskDomainModel
+}
+export const updateTaskTC = createAppAsyncThunk<UpdateTaskArg, UpdateTaskArg>(
+  'tasks/updateTask',
+  async ({ todolistId, taskId, model }, thunkApi) => {
+    const { dispatch, getState, rejectWithValue } = thunkApi
     const task = getState().tasks.tasks[todolistId].find(
       (el) => el.id === taskId
     )
     if (task) {
       const apiModel: UpdateTaskModel = {
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        priority: task.priority,
-        startDate: task.startDate,
-        deadline: task.deadline,
-        ...domainModel,
+        ...task,
+        ...model,
       }
-      todolistAPI
-        .updateTask(todolistId, taskId, apiModel)
-        .then((res) => {
-          if (res.data.resultCode === STATUS_CODE.SUCCESS) {
-            dispatch(updateTask({ todolistId, taskId, model: domainModel }))
-            dispatch(setAppStatus({ status: 'succeeded' }))
-          } else {
-            handleServerAppError(dispatch, res.data)
-          }
-        })
-        .catch((err) => {
-          handleServerNetworkError(dispatch, err)
-        })
+      try {
+        const res = await todolistAPI.updateTask(todolistId, taskId, apiModel)
+        if (res.data.resultCode === STATUS_CODE.SUCCESS) {
+          return { todolistId, taskId, model }
+        } else {
+          handleServerAppError(dispatch, res.data)
+          return rejectWithValue(null)
+        }
+      } catch (err) {
+        handleServerNetworkError(dispatch, err)
+        return rejectWithValue(null)
+      }
+    } else {
+      return rejectWithValue(null)
     }
   }
+)
 type UpdateTaskDomainModel = {
   title?: string
   description?: string

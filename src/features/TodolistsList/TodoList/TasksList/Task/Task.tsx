@@ -26,11 +26,11 @@ export const Task = memo((props: Props) => {
     const status = e.currentTarget.checked
       ? TaskStatuses.Completed
       : TaskStatuses.New
-    dispatch(updateTaskTC(todolistId, task.id, { status }))
+    dispatch(updateTaskTC({ todolistId, taskId: task.id, model: { status } }))
   }
   const changeTaskTitle = useCallback(
     (title: string) => {
-      dispatch(updateTaskTC(todolistId, task.id, { title }))
+      dispatch(updateTaskTC({ todolistId, taskId: task.id, model: { title } }))
     },
     [todolistId, task.id, dispatch]
   )

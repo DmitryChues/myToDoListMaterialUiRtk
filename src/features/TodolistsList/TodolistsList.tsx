@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import { useAppDispatch } from 'app/store'
-import { AddItemForm } from 'components/AddItemForm/AddItemForm'
+import { AddItemForm } from 'common'
 import { selectIsLoggedIn } from 'features/Login/authSlice'
 import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'

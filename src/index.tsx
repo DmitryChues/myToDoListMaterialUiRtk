@@ -1,15 +1,13 @@
-import React from 'react'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import { ThemeProvider } from '@mui/material/styles'
-import { createTheme } from '@mui/material/styles'
-import App from './app/App'
 import { Provider } from 'react-redux'
-import { store } from './app/store'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import App from './app/App'
+import { store } from './app/store'
+import { ErrorPage } from './common'
 import { Login } from './features/Login/Login'
 import { TodolistsList } from './features/TodolistsList/TodolistsList'
-import { ErrorPage } from './components/ErrorPage/ErrorPage'
+import './index.css'
 
 const theme = createTheme({
   palette: {

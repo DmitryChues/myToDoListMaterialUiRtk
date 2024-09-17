@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { STATUS_CODE, Todolist, todolistAPI } from 'api/todolistAPI'
 import { FilterValues } from 'app/App'
 import { RequestStatus, setAppStatus } from 'app/appSlice'
 import { AppThunk } from 'app/store'
 import {
   handleServerAppError,
   handleServerNetworkError,
-} from 'utils/errorUtils'
+  STATUS_CODE,
+  Todolist,
+  todolistAPI,
+} from 'common'
 
 type TodolistDomain = Todolist & {
   filter: FilterValues

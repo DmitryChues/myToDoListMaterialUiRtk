@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { authAPI, STATUS_CODE } from 'api/todolistAPI'
 import { setAppStatus, setIsInitialized } from 'app/appSlice'
 import { AppThunk } from 'app/store'
 import {
+  authAPI,
   handleServerAppError,
   handleServerNetworkError,
-} from 'utils/errorUtils'
+  STATUS_CODE,
+} from 'common'
 import { LoginData } from './Login'
 
 type InitialState = {

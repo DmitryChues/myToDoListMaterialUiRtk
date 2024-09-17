@@ -1,5 +1,5 @@
 import { RequestStatus } from 'app/appSlice'
-import { EditableSpan } from 'components/EditableSpan/EditableSpan'
+import { EditableSpan } from 'common'
 import { FC, memo, useCallback } from 'react'
 import s from './Header.module.css'
 

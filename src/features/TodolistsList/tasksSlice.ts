@@ -1,20 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { FilterValues } from 'app/App'
+import { RequestStatus, setAppStatus } from 'app/appSlice'
+import { AppThunk } from 'app/store'
 import {
+  handleServerAppError,
+  handleServerNetworkError,
   STATUS_CODE,
   TaskEntity,
   TaskPriorities,
   TaskStatuses,
   todolistAPI,
   UpdateTaskModel,
-} from 'api/todolistAPI'
-import { FilterValues } from 'app/App'
-import { RequestStatus, setAppStatus } from 'app/appSlice'
-import { AppThunk } from 'app/store'
-import { createAppAsyncThunk } from 'hooks/useAppAsyncThunk'
-import {
-  handleServerAppError,
-  handleServerNetworkError,
-} from 'utils/errorUtils'
+} from 'common'
+import { createAppAsyncThunk } from 'common/hooks/useAppAsyncThunk'
 import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
 
 export type TaskDomain = TaskEntity & {

@@ -1,6 +1,6 @@
-import { Response } from 'api/todolistAPI'
 import { setAppStatus, setError } from 'app/appSlice'
 import axios from 'axios'
+import { Response } from 'common'
 import { Dispatch } from 'redux'
 
 type ErrorUtilsDispatch = Dispatch

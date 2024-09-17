@@ -1,7 +1,7 @@
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { FilterValues } from 'app/App'
 import { useAppDispatch } from 'app/store'
-import { ButtonMui } from 'components/ButtonMui/ButtonMui'
+import { ButtonMui } from 'common'
 import { FC, memo, useCallback } from 'react'
 import { updateTodolist } from '../../todolistsSlice'
 

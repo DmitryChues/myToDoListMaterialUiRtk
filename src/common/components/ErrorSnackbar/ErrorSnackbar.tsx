@@ -4,7 +4,7 @@ import { selectAppError, setError } from 'app/appSlice'
 import { useAppDispatch } from 'app/store'
 import { useSelector } from 'react-redux'
 
-export default function CustomizedSnackbars() {
+export function CustomizedSnackbars() {
   const error = useSelector(selectAppError)
   const dispatch = useAppDispatch()
   const handleClose = (

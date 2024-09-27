@@ -9,6 +9,7 @@ import {
   Todolist,
   todolistAPI,
 } from 'common'
+import { getTasksTC } from './tasksSlice'
 
 type TodolistDomain = Todolist & {
   filter: FilterValues
@@ -80,6 +81,12 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
     .then((res) => {
       dispatch(setTodoList({ todolists: res.data }))
       dispatch(setAppStatus({ status: 'succeeded' }))
+      return res.data
+    })
+    .then((res) => {
+      res.forEach((todolist) => {
+        dispatch(getTasksTC(todolist.id))
+      })
     })
     .catch((err) => {
       handleServerNetworkError(dispatch, err)

@@ -4,14 +4,9 @@ import Button from '@mui/material/Button'
 import { FilterValues } from 'app/App'
 import { RequestStatus } from 'app/appSlice'
 import { AppRootState, useAppDispatch } from 'app/store'
-import { FC, memo, useEffect } from 'react'
+import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  deleteTasksTC,
-  getTasksTC,
-  selectFilteredTask,
-  TaskDomain,
-} from '../../tasksSlice'
+import { deleteTasksTC, selectFilteredTask, TaskDomain } from '../../tasksSlice'
 import { Task } from './Task/Task'
 import s from './TaskList.module.css'
 
@@ -27,9 +22,6 @@ export const TasksList: FC<Props> = memo(
       selectFilteredTask(state, filter, todolistId)
     )
     const dispatch = useAppDispatch()
-    useEffect(() => {
-      dispatch(getTasksTC(todolistId))
-    }, [dispatch, todolistId])
 
     const [listRef] = useAutoAnimate<HTMLUListElement>()
 

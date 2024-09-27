@@ -12,7 +12,12 @@ import {
   UpdateTaskModel,
 } from 'common'
 import { createAppAsyncThunk } from 'common/hooks/useAppAsyncThunk'
-import { addTodoList, deleteTodoList, setTodoList } from './todolistsSlice'
+import {
+  addTodoList,
+  clearTodolistsData,
+  deleteTodoList,
+  setTodoLists,
+} from './todolistsSlice'
 
 export type TaskDomain = TaskEntity & {
   entityStatus: RequestStatus
@@ -33,13 +38,16 @@ export const tasksSlice = createSlice({
       .addCase(addTodoList, (state, action) => {
         state.tasks[action.payload.todolist.id] = []
       })
-      .addCase(setTodoList, (state, action) => {
+      .addCase(setTodoLists, (state, action) => {
         action.payload.todolists.forEach((tl) => {
           state.tasks[tl.id] = []
         })
       })
       .addCase(deleteTodoList, (state, action) => {
         delete state.tasks[action.payload.todolistId]
+      })
+      .addCase(clearTodolistsData, (state, _action) => {
+        state.tasks = {}
       })
       .addCase(getTasksTC.fulfilled, (state, action) => {
         state.tasks[action.payload.todolistId] = action.payload.tasks.map(

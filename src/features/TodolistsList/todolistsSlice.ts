@@ -26,7 +26,7 @@ export const todolistSlice = createSlice({
   name: 'todolists',
   initialState,
   reducers: {
-    setTodoList(_state, action: PayloadAction<{ todolists: Todolist[] }>) {
+    setTodoLists(_state, action: PayloadAction<{ todolists: Todolist[] }>) {
       return {
         todolists: action.payload.todolists.map((el) => ({
           ...el,
@@ -62,6 +62,9 @@ export const todolistSlice = createSlice({
         Object.assign(state.todolists[index], action.payload.model)
       }
     },
+    clearTodolistsData(state, _action: PayloadAction) {
+      state.todolists = []
+    },
   },
   selectors: {
     selectTodolists(state) {
@@ -70,8 +73,13 @@ export const todolistSlice = createSlice({
   },
 })
 
-export const { addTodoList, deleteTodoList, setTodoList, updateTodolist } =
-  todolistSlice.actions
+export const {
+  addTodoList,
+  deleteTodoList,
+  setTodoLists,
+  updateTodolist,
+  clearTodolistsData,
+} = todolistSlice.actions
 export const { selectTodolists } = todolistSlice.selectors
 
 export const getTodosTC = (): AppThunk => (dispatch) => {
@@ -79,7 +87,7 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
   todolistAPI
     .getTodos()
     .then((res) => {
-      dispatch(setTodoList({ todolists: res.data }))
+      dispatch(setTodoLists({ todolists: res.data }))
       dispatch(setAppStatus({ status: 'succeeded' }))
       return res.data
     })

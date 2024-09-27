@@ -7,6 +7,7 @@ import {
   handleServerNetworkError,
   STATUS_CODE,
 } from 'common'
+import { clearTodolistsData } from 'features/TodolistsList/todolistsSlice'
 import { LoginData } from './Login'
 
 type InitialState = {
@@ -59,6 +60,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
         dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        dispatch(clearTodolistsData())
       } else {
         handleServerAppError(dispatch, res.data)
       }

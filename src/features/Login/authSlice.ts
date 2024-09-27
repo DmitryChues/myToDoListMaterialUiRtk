@@ -44,10 +44,10 @@ export const loginTC =
       .then((res) => {
         if (res.data.resultCode === STATUS_CODE.SUCCESS) {
           dispatch(setIsLoggedIn({ isLoggedIn: true }))
+          dispatch(setAppStatus({ status: 'succeeded' }))
         } else {
           handleServerAppError(dispatch, res.data)
         }
-        dispatch(setAppStatus({ status: 'succeeded' }))
       })
       .catch((e) => {
         handleServerNetworkError(dispatch, e)
@@ -60,11 +60,11 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
         dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        dispatch(setAppStatus({ status: 'succeeded' }))
         dispatch(clearTodolistsData())
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setAppStatus({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)
@@ -78,10 +78,10 @@ export const meTC = (): AppThunk => (dispatch) => {
     .then((res) => {
       if (res.data.resultCode === STATUS_CODE.SUCCESS) {
         dispatch(setIsLoggedIn({ isLoggedIn: true }))
+        dispatch(setAppStatus({ status: 'succeeded' }))
       } else {
         handleServerAppError(dispatch, res.data)
       }
-      dispatch(setAppStatus({ status: 'succeeded' }))
     })
     .catch((e) => {
       handleServerNetworkError(dispatch, e)

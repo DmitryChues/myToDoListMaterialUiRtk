@@ -9,6 +9,7 @@ import {
   Todolist,
   todolistAPI,
 } from 'common'
+import { createAppAsyncThunk } from 'common/hooks/useAppAsyncThunk'
 import { getTasksTC } from './tasksSlice'
 
 type TodolistDomain = Todolist & {
@@ -82,24 +83,24 @@ export const {
 } = todolistSlice.actions
 export const { selectTodolists } = todolistSlice.selectors
 
-export const getTodosTC = (): AppThunk => (dispatch) => {
-  dispatch(setAppStatus({ status: 'loading' }))
-  todolistAPI
-    .getTodos()
-    .then((res) => {
+export const getTodolistsTC = createAppAsyncThunk<Todolist[]>(
+  'todolists/fetchTodolists',
+  async (_arg, thunkApi) => {
+    const { dispatch, rejectWithValue } = thunkApi
+    try {
+      const res = await todolistAPI.getTodos()
       dispatch(setTodoLists({ todolists: res.data }))
-      dispatch(setAppStatus({ status: 'succeeded' }))
-      return res.data
-    })
-    .then((res) => {
-      res.forEach((todolist) => {
-        dispatch(getTasksTC(todolist.id))
+      const tasksPromises = res.data.map((todolist) => {
+        return dispatch(getTasksTC(todolist.id))
       })
-    })
-    .catch((err) => {
+      await Promise.all(tasksPromises)
+      return res.data
+    } catch (err) {
       handleServerNetworkError(dispatch, err)
-    })
-}
+      return rejectWithValue(null)
+    }
+  }
+)
 
 export const addTodoListTC =
   (title: string): AppThunk =>

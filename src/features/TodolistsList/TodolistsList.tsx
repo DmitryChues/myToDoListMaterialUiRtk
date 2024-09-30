@@ -6,7 +6,11 @@ import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { TodoList } from './TodoList/TodoList'
-import { addTodoListTC, getTodosTC, selectTodolists } from './todolistsSlice'
+import {
+  addTodoListTC,
+  getTodolistsTC,
+  selectTodolists,
+} from './todolistsSlice'
 
 export const TodolistsList = () => {
   const todolists = useSelector(selectTodolists)
@@ -20,7 +24,7 @@ export const TodolistsList = () => {
   )
   useEffect(() => {
     if (!isLoggedIn) return
-    dispatch(getTodosTC())
+    dispatch(getTodolistsTC())
   }, [dispatch, isLoggedIn])
 
   if (!isLoggedIn) {

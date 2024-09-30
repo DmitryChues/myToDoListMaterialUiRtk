@@ -1,10 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import {
-  addTaskTC,
-  deleteTasksTC,
-  getTasksTC,
-  updateTaskTC,
-} from 'features/TodolistsList/tasksSlice'
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 type AppInitialState = {
@@ -45,30 +39,18 @@ export const appSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getTasksTC.pending, (state, _action) => {
-        state.status = 'loading'
-      })
-      .addCase(getTasksTC.fulfilled, (state, _action) => {
-        state.status = 'succeeded'
-      })
-      .addCase(addTaskTC.pending, (state, _action) => {
-        state.status = 'loading'
-      })
-      .addCase(addTaskTC.fulfilled, (state, _action) => {
-        state.status = 'succeeded'
-      })
-      .addCase(updateTaskTC.pending, (state, _action) => {
-        state.status = 'loading'
-      })
-      .addCase(updateTaskTC.fulfilled, (state, _action) => {
-        state.status = 'succeeded'
-      })
-      .addCase(deleteTasksTC.pending, (state, _action) => {
-        state.status = 'loading'
-      })
-      .addCase(deleteTasksTC.fulfilled, (state, _action) => {
-        state.status = 'succeeded'
-      })
+      .addMatcher(
+        (action) => action.type.endsWith('/pending'),
+        (state, action) => {
+          state.status = 'loading'
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/fulfilled'),
+        (state, action) => {
+          state.status = 'succeeded'
+        }
+      )
   },
 })
 

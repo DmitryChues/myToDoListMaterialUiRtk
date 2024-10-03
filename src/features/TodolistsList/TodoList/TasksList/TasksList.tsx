@@ -30,12 +30,12 @@ export const TasksList: FC<Props> = memo(
         dispatch(deleteTasksTC({ todolistId, taskId: el.id }))
       })
     }
-    const tasksItems: JSX.Element = tasks.length ? (
+    const tasksItems: JSX.Element = tasks?.length ? (
       <ul
         ref={listRef}
         className={s.tasksWrapper}
       >
-        {tasks.map((task) => {
+        {tasks?.map((task) => {
           return (
             <li key={task.id}>
               <Task
@@ -54,7 +54,7 @@ export const TasksList: FC<Props> = memo(
     return (
       <div className={s.taskList}>
         {tasksItems}
-        {tasks.length !== 0 && (
+        {tasks?.length !== 0 && (
           <Button
             variant='contained'
             size='small'

@@ -18,7 +18,7 @@ export const TodolistsList = () => {
   const dispatch = useAppDispatch()
   const addTodoList = useCallback(
     (title: string) => {
-      dispatch(addTodoListTC(title))
+      dispatch(addTodoListTC({ title }))
     },
     [dispatch]
   )

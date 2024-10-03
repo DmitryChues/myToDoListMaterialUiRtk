@@ -13,10 +13,9 @@ import {
 } from 'common'
 import { createAppAsyncThunk } from 'common/hooks/useAppAsyncThunk'
 import {
-  addTodoList,
+  addTodoListTC,
   clearTodolistsData,
-  deleteTodoList,
-  setTodoLists,
+  deleteTodoListTC,
 } from './todolistsSlice'
 
 export type TaskDomain = TaskEntity & {
@@ -35,15 +34,10 @@ export const tasksSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(addTodoList, (state, action) => {
+      .addCase(addTodoListTC.fulfilled, (state, action) => {
         state.tasks[action.payload.todolist.id] = []
       })
-      .addCase(setTodoLists, (state, action) => {
-        action.payload.todolists.forEach((tl) => {
-          state.tasks[tl.id] = []
-        })
-      })
-      .addCase(deleteTodoList, (state, action) => {
+      .addCase(deleteTodoListTC.fulfilled, (state, action) => {
         delete state.tasks[action.payload.todolistId]
       })
       .addCase(clearTodolistsData, (state, _action) => {

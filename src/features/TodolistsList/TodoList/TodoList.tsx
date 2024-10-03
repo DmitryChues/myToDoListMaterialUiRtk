@@ -6,7 +6,7 @@ import { AddItemForm } from 'common'
 import { FC, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addTaskTC } from '../tasksSlice'
-import { changeTodoListTC, deleteTodoListTC } from '../todolistsSlice'
+import { deleteTodoListTC, updateTodoListTC } from '../todolistsSlice'
 import { FilterTasksButtons } from './FilterTasksButtons/FilterTasksButtons'
 import { HeaderTodolist } from './HeaderTodolist/HeaderTodolist'
 import { TasksList } from './TasksList/TasksList'
@@ -33,12 +33,12 @@ export const TodoList: FC<Props> = ({
   }, [isHide])
 
   const deleteTodoList = useCallback(() => {
-    dispatch(deleteTodoListTC(todolistId))
+    dispatch(deleteTodoListTC({ todolistId }))
   }, [todolistId, dispatch])
 
   const changeTodoListTitle = useCallback(
     (title: string) => {
-      dispatch(changeTodoListTC(title, todolistId))
+      dispatch(updateTodoListTC({ title, todolistId }))
     },
     [todolistId, dispatch]
   )
